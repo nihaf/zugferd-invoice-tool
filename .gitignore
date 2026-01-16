@@ -2,6 +2,7 @@ target/
 .idea/
 .settings/
 .vscode/
+.history/
 build/
 out/
 bin/
