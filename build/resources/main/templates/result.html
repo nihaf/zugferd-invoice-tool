@@ -63,7 +63,7 @@
 
                     <!-- Errors Details -->
                     <div th:if="${!vr.errors.isEmpty()}" class="validation-details">
-                        <h4 class="text-danger">Fehler:</h4>
+                        <h4 class="text-danger" th:text="#{result.validation.errors} + ':'">Fehler:</h4>
                         <ul>
                             <li th:each="err : ${vr.errors}">
                                 <code th:text="${err.ruleId}">Rule</code>:
@@ -74,7 +74,7 @@
 
                     <!-- Warnings Details -->
                     <div th:if="${!vr.warnings.isEmpty()}" class="validation-details">
-                        <h4 class="text-warning">Warnungen:</h4>
+                        <h4 class="text-warning" th:text="#{result.validation.warnings} + ':'">Warnungen:</h4>
                         <ul>
                             <li th:each="warn : ${vr.warnings}">
                                 <code th:text="${warn.ruleId}">Rule</code>:
@@ -174,8 +174,8 @@
         <th:block th:if="${statusType == 'Processing'}">
             <div class="result-header result-processing">
                 <div class="spinner-large"></div>
-                <h1>Verarbeitung...</h1>
-                <p>Ihre E-Rechnung wird erstellt.</p>
+                <h1 th:text="#{result.processing.title}">Verarbeitung...</h1>
+                <p th:text="#{result.processing.message}">Ihre E-Rechnung wird erstellt.</p>
             </div>
             <script>
                 setTimeout(function() { location.reload(); }, 2000);
@@ -190,7 +190,8 @@
             </a>
             <form th:action="@{/cleanup/{id}(id=${sessionId})}" method="post" class="inline-form">
                 <button type="submit" class="button button-outline button-danger"
-                        onclick="return confirm('Sitzung wirklich loeschen?');">
+                        th:data-confirm="#{result.confirm.delete}"
+                        onclick="return confirm(this.dataset.confirm);">
                     <span>&#128465;</span>
                     <span th:text="#{result.button.delete}">Loeschen</span>
                 </button>

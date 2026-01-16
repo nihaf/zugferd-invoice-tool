@@ -19,7 +19,7 @@
                 <strong th:text="${errorCode} ?: 'UNKNOWN'">ERROR</strong>
             </div>
             <div class="card-body">
-                <h4 th:text="${errorMessage} ?: 'Ein Fehler ist aufgetreten'">
+                <h4 th:text="${errorMessage} ?: #{error.generic}">
                     Ein Fehler ist aufgetreten
                 </h4>
                 <p th:if="${errorDetails}" class="text-muted" th:text="${errorDetails}">
@@ -28,7 +28,7 @@
 
                 <!-- Validation Errors -->
                 <div th:if="${validationResult != null && !validationResult.errors.isEmpty()}" class="validation-details">
-                    <h5>Validierungsfehler:</h5>
+                    <h5 th:text="#{error.validation.title}">Validierungsfehler:</h5>
                     <ul>
                         <li th:each="err : ${validationResult.errors}">
                             <code th:text="${err.ruleId}">Rule</code>:

@@ -1,5 +1,6 @@
 package de.zugferd.invoicetool.model;
 
+import de.zugferd.invoicetool.config.AppConfig;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -161,14 +162,80 @@ public class InvoiceFormData {
      * Initialisiert mit einer Standard-Position.
      */
     public void initializeDefaults() {
+        initializeDefaults(null);
+    }
+
+    /**
+     * Initialisiert mit einer Standard-Position und optional mit Vorgaben aus der Konfiguration.
+     *
+     * @param invoiceDefaults Vorgaben aus application.yml oder null
+     */
+    public void initializeDefaults(AppConfig.InvoiceDefaults invoiceDefaults) {
         if (items.isEmpty()) {
             addItem();
         }
+
+        // Rechnungsdaten
         if (issueDate == null) {
             issueDate = LocalDate.now();
         }
         if (dueDate == null) {
             dueDate = issueDate.plusDays(30);
+        }
+
+        // Vorgaben aus Konfiguration anwenden, falls vorhanden
+        if (invoiceDefaults != null) {
+            // Seller defaults
+            AppConfig.InvoiceDefaults.SellerDefaults sellerDefaults = invoiceDefaults.getSeller();
+            if (sellerDefaults != null) {
+                if (sellerDefaults.getName() != null) {
+                    sellerName = sellerDefaults.getName();
+                }
+                if (sellerDefaults.getVatId() != null) {
+                    sellerVatId = sellerDefaults.getVatId();
+                }
+                if (sellerDefaults.getStreet() != null) {
+                    sellerStreet = sellerDefaults.getStreet();
+                }
+                if (sellerDefaults.getPostalCode() != null) {
+                    sellerPostalCode = sellerDefaults.getPostalCode();
+                }
+                if (sellerDefaults.getCity() != null) {
+                    sellerCity = sellerDefaults.getCity();
+                }
+                if (sellerDefaults.getCountryCode() != null) {
+                    sellerCountryCode = sellerDefaults.getCountryCode();
+                }
+                if (sellerDefaults.getEmail() != null) {
+                    sellerEmail = sellerDefaults.getEmail();
+                }
+                if (sellerDefaults.getPhone() != null) {
+                    sellerPhone = sellerDefaults.getPhone();
+                }
+            }
+
+            // Payment defaults
+            AppConfig.InvoiceDefaults.PaymentDefaults paymentDefaults = invoiceDefaults.getPayment();
+            if (paymentDefaults != null) {
+                if (paymentDefaults.getIban() != null) {
+                    bankIban = paymentDefaults.getIban();
+                }
+                if (paymentDefaults.getBic() != null) {
+                    bankBic = paymentDefaults.getBic();
+                }
+                if (paymentDefaults.getBankName() != null) {
+                    bankName = paymentDefaults.getBankName();
+                }
+                if (paymentDefaults.getTerms() != null) {
+                    paymentTerms = paymentDefaults.getTerms();
+                }
+            }
+
+            // Invoice defaults
+            AppConfig.InvoiceDefaults.InvoiceSettings invoiceSettings = invoiceDefaults.getInvoice();
+            if (invoiceSettings != null && invoiceSettings.getCurrency() != null) {
+                currency = invoiceSettings.getCurrency();
+            }
         }
     }
     

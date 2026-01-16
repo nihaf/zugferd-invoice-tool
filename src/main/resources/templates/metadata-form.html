@@ -245,17 +245,17 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="5" class="text-right"><strong>Summe Netto:</strong></td>
+                            <td colspan="5" class="text-right"><strong th:text="#{metadata.totals.net}">Summe Netto:</strong></td>
                             <td><span id="totalNet">0.00</span> <span th:text="*{currency}">EUR</span></td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td colspan="5" class="text-right"><strong>MwSt:</strong></td>
+                            <td colspan="5" class="text-right"><strong th:text="#{metadata.totals.vat}">MwSt:</strong></td>
                             <td><span id="totalVat">0.00</span> <span th:text="*{currency}">EUR</span></td>
                             <td></td>
                         </tr>
                         <tr class="total-row">
-                            <td colspan="5" class="text-right"><strong>Gesamt Brutto:</strong></td>
+                            <td colspan="5" class="text-right"><strong th:text="#{metadata.totals.gross}">Gesamt Brutto:</strong></td>
                             <td><strong><span id="totalGross">0.00</span> <span th:text="*{currency}">EUR</span></strong></td>
                             <td></td>
                         </tr>
@@ -288,7 +288,7 @@
                 <div class="column">
                     <label for="paymentTerms" th:text="#{metadata.payment.terms}">Zahlungsbedingungen</label>
                     <input type="text" id="paymentTerms" th:field="*{paymentTerms}"
-                           placeholder="Zahlbar innerhalb von 14 Tagen ohne Abzug">
+                           th:placeholder="#{metadata.payment.terms.placeholder}">
                 </div>
             </div>
         </fieldset>
@@ -302,7 +302,7 @@
             <div class="row">
                 <div class="column">
                     <textarea id="notes" th:field="*{notes}" rows="3"
-                              placeholder="Optionale Anmerkungen..."></textarea>
+                              th:placeholder="#{metadata.notes.placeholder}"></textarea>
                 </div>
             </div>
         </fieldset>

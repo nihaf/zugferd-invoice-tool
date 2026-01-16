@@ -6,7 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" th:content="#{app.description}">
-    <title layout:title-pattern="$CONTENT_TITLE - E-Rechnung">E-Rechnung Tool</title>
+    <meta name="theme-color" content="#9b4dca">
+    <title th:block th:fragment="title">E-Rechnung Tool</title>
 
     <!-- Normalize CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
@@ -14,26 +15,30 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.min.css">
     <!-- Google Fonts - Clean sans-serif -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <!-- Header -->
     <header class="site-header">
         <div class="container">
             <div class="row">
                 <div class="column">
-                    <nav class="navigation">
+                    <nav class="navigation" role="navigation" aria-label="Main navigation">
                         <a th:href="@{/}" class="brand">
-                            <span class="brand-icon">&#9998;</span>
+                            <span class="brand-icon" aria-hidden="true">&#128196;</span>
                             <span class="brand-text" th:text="#{app.title}">E-Rechnung Tool</span>
                         </a>
                         <div class="nav-right">
-                            <div class="locale-switcher">
-                                <a th:href="@{/locale(lang='de')}" class="locale-link" th:classappend="${#locale.language == 'de'} ? 'active'">DE</a>
-                                <span class="locale-sep">|</span>
-                                <a th:href="@{/locale(lang='en')}" class="locale-link" th:classappend="${#locale.language == 'en'} ? 'active'">EN</a>
+                            <div class="locale-switcher" role="group" aria-label="Language selection">
+                                <a th:href="@{/locale(lang='de')}" class="locale-link" th:classappend="${#locale.language == 'de'} ? 'active'" th:aria-current="${#locale.language == 'de'} ? 'true' : 'false'">DE</a>
+                                <span class="locale-sep" aria-hidden="true">|</span>
+                                <a th:href="@{/locale(lang='en')}" class="locale-link" th:classappend="${#locale.language == 'en'} ? 'active'" th:aria-current="${#locale.language == 'en'} ? 'true' : 'false'">EN</a>
                             </div>
                         </div>
                     </nav>
@@ -59,7 +64,7 @@
     </th:block>
 
     <!-- Main Content -->
-    <main class="site-content">
+    <main id="main-content" class="site-content">
         <div class="container">
             <div layout:fragment="content">
                 <!-- Page content will be inserted here -->
@@ -75,7 +80,7 @@
                     <p>
                         <span th:text="#{app.title}">E-Rechnung Tool</span>
                         <span class="separator">&middot;</span>
-                        ZUGFeRD 2.1 / Factur-X
+                        ZUGFeRD 2.3 / Factur-X
                         <span class="separator">&middot;</span>
                         <span th:text="#{footer.powered}">Powered by Mustang</span>
                     </p>

@@ -61,6 +61,31 @@ storage:
   cleanup-interval-minutes: 5
   file-retention-minutes: 30
 
+# Invoice Defaults Configuration
+invoice:
+  defaults:
+    # Seller Information (Company)
+    seller:
+      name: "Acme Corporation"
+      vat-id: "DE123456789"
+      street: "Main Street 42"
+      postal-code: "10115"
+      city: "Berlin"
+      country-code: "DE"
+      email: "sales@acme-corp.de"
+      phone: "+49 30 123456789"
+
+    # Payment Information
+    payment:
+      iban: "DE89370400440532013000"
+      bic: "COBADEFFXXX"
+      bank-name: "Commerzbank"
+      terms: "Net 30 days"
+
+    # Invoice Defaults
+    invoice:
+      currency: "EUR"
+
 # Logging Configuration
 logging:
   level:
@@ -82,6 +107,30 @@ spring:
 storage:
   upload-dir: /app/temp/uploads
   output-dir: /app/temp/output
+
+invoice:
+  defaults:
+    # Seller Information (Company)
+    seller:
+      name: "Acme Corporation"
+      vat-id: "DE123456789"
+      street: "Main Street 42"
+      postal-code: "10115"
+      city: "Berlin"
+      country-code: "DE"
+      email: "sales@acme-corp.de"
+      phone: "+49 30 123456789"
+
+    # Payment Information
+    payment:
+      iban: "DE89370400440532013000"
+      bic: "COBADEFFXXX"
+      bank-name: "Commerzbank"
+      terms: "Net 30 days"
+
+    # Invoice Defaults
+    invoice:
+      currency: "EUR"
 
 logging:
   level:

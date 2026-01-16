@@ -1,5 +1,6 @@
 package de.zugferd.invoicetool.controller;
 
+import de.zugferd.invoicetool.config.AppConfig;
 import de.zugferd.invoicetool.model.InvoiceFormData;
 import de.zugferd.invoicetool.model.ProcessingStatus;
 import de.zugferd.invoicetool.service.InvoiceService;
@@ -19,15 +20,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 public class InvoiceController {
-    
+
     private static final Logger log = LoggerFactory.getLogger(InvoiceController.class);
-    
+
     private final StorageService storageService;
     private final InvoiceService invoiceService;
-    
-    public InvoiceController(StorageService storageService, InvoiceService invoiceService) {
+    private final AppConfig.InvoiceDefaults invoiceDefaults;
+
+    public InvoiceController(StorageService storageService,
+                            InvoiceService invoiceService,
+                            AppConfig.InvoiceDefaults invoiceDefaults) {
         this.storageService = storageService;
         this.invoiceService = invoiceService;
+        this.invoiceDefaults = invoiceDefaults;
     }
     
     /**
@@ -64,18 +69,18 @@ public class InvoiceController {
      */
     @GetMapping("/metadata/{sessionId}")
     public String showMetadataForm(@PathVariable String sessionId, Model model) {
-        
+
         ProcessingStatus status = storageService.getStatusOrThrow(sessionId);
-        
+
         // Prüfen ob Upload-Status
         if (!(status instanceof ProcessingStatus.Uploaded uploaded)) {
             return "redirect:/result/" + sessionId;
         }
-        
-        // Formular-Daten initialisieren
+
+        // Formular-Daten initialisieren mit Defaults aus Konfiguration
         InvoiceFormData formData = new InvoiceFormData();
-        formData.initializeDefaults();
-        
+        formData.initializeDefaults(invoiceDefaults);
+
         model.addAttribute("sessionId", sessionId);
         model.addAttribute("originalFilename", uploaded.originalFilename());
         model.addAttribute("fileSize", formatFileSize(uploaded.fileSizeBytes()));
@@ -83,7 +88,7 @@ public class InvoiceController {
         model.addAttribute("units", getAvailableUnits());
         model.addAttribute("vatRates", getCommonVatRates());
         model.addAttribute("countries", getCountryCodes());
-        
+
         return "metadata-form";
     }
     
