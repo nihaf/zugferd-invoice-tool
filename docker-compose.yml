@@ -1,0 +1,40 @@
+# ===========================================
+# ZUGFeRD Invoice Tool - Docker Compose
+# ===========================================
+
+services:
+  zugferd-invoice-tool:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: zugferd-invoice-tool
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - JAVA_OPTS=-Xms256m -Xmx512m --enable-preview
+      - TZ=Europe/Berlin
+    volumes:
+      # Persist temp files (optional, for debugging)
+      - zugferd-temp:/app/temp
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+volumes:
+  zugferd-temp:
+    driver: local

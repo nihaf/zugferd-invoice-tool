@@ -1,0 +1,238 @@
+/* ===========================================
+   ZUGFeRD Invoice Tool - Custom Styles
+   =========================================== */
+
+/* General */
+html {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f9fa;
+}
+
+main {
+    flex: 1;
+}
+
+/* Upload Zone */
+.upload-zone {
+    border-color: #dee2e6 !important;
+    background-color: #fff;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.upload-zone:hover {
+    border-color: #0d6efd !important;
+    background-color: #f8f9ff;
+}
+
+.upload-zone.drag-over {
+    border-color: #0d6efd !important;
+    background-color: #e7f1ff;
+    border-style: solid !important;
+}
+
+.upload-zone .upload-icon {
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+.upload-zone:hover .upload-icon {
+    opacity: 0.8;
+}
+
+/* Border Dashed */
+.border-dashed {
+    border-style: dashed !important;
+}
+
+/* Cards */
+.card {
+    border-radius: 0.5rem;
+}
+
+.card-header {
+    border-radius: 0.5rem 0.5rem 0 0 !important;
+}
+
+/* Form Controls */
+.form-control:focus,
+.form-select:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+}
+
+/* Tables */
+.table th {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.table-sm td,
+.table-sm th {
+    padding: 0.4rem 0.5rem;
+}
+
+/* Buttons */
+.btn-lg {
+    padding: 0.75rem 1.5rem;
+}
+
+.btn-success {
+    background-color: #198754;
+}
+
+.btn-success:hover {
+    background-color: #157347;
+}
+
+/* Validation */
+.is-invalid {
+    border-color: #dc3545 !important;
+}
+
+.invalid-feedback {
+    display: block;
+}
+
+/* Navbar */
+.navbar-brand {
+    font-weight: 600;
+}
+
+/* Language Dropdown */
+.dropdown-menu {
+    min-width: auto;
+}
+
+/* Footer */
+.footer {
+    margin-top: auto;
+}
+
+/* Spinner */
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* Result Page */
+.display-1 {
+    font-size: 5rem;
+}
+
+/* Alerts */
+.alert {
+    border-radius: 0.5rem;
+}
+
+/* Badge */
+.badge {
+    font-weight: 500;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .display-1 {
+        font-size: 3rem;
+    }
+    
+    .btn-lg {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+    }
+    
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .navbar,
+    .footer,
+    .btn {
+        display: none !important;
+    }
+    
+    .card {
+        border: 1px solid #000 !important;
+        break-inside: avoid;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+/* Accessibility */
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Focus styles for accessibility */
+a:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+    outline: 2px solid #0d6efd;
+    outline-offset: 2px;
+}
+
+/* Skip link for accessibility */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #0d6efd;
+    color: white;
+    padding: 8px;
+    z-index: 100;
+}
+
+.skip-link:focus {
+    top: 0;
+}

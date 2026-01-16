@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<head>
+    <title th:text="#{metadata.title}">Rechnungsdaten</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="row">
+            <div class="column column-75">
+                <h1 th:text="#{metadata.title}">Rechnungsdaten eingeben</h1>
+                <p class="file-badge">
+                    <span class="file-icon">&#128196;</span>
+                    <strong th:text="${originalFilename}">document.pdf</strong>
+                    <span class="file-size">(<span th:text="${fileSize}">1.2 MB</span>)</span>
+                </p>
+            </div>
+            <div class="column column-25 text-right">
+                <a th:href="@{/}" class="button button-outline">
+                    <span th:text="#{metadata.button.cancel}">Abbrechen</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form -->
+    <form th:action="@{/generate/{sessionId}(sessionId=${sessionId})}"
+          th:object="${invoiceForm}" method="post" id="invoiceForm">
+
+        <!-- Validation Errors -->
+        <div th:if="${#fields.hasErrors('*')}" class="alert alert-error">
+            <ul>
+                <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Error</li>
+            </ul>
+        </div>
+
+        <!-- Invoice Data Section -->
+        <fieldset class="section section-invoice">
+            <legend>
+                <span class="section-icon">&#128196;</span>
+                <span th:text="#{metadata.section.invoice}">Rechnungsdaten</span>
+            </legend>
+            <div class="row">
+                <div class="column column-33">
+                    <label for="invoiceNumber" th:text="#{metadata.invoice.number}">Rechnungsnummer</label>
+                    <input type="text" id="invoiceNumber" th:field="*{invoiceNumber}"
+                           th:classappend="${#fields.hasErrors('invoiceNumber')} ? 'input-error'" required>
+                </div>
+                <div class="column column-33">
+                    <label for="issueDate" th:text="#{metadata.invoice.issueDate}">Rechnungsdatum</label>
+                    <input type="date" id="issueDate" th:field="*{issueDate}" required>
+                </div>
+                <div class="column column-33">
+                    <label for="dueDate" th:text="#{metadata.invoice.dueDate}">Faelligkeitsdatum</label>
+                    <input type="date" id="dueDate" th:field="*{dueDate}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column column-33">
+                    <label for="currency" th:text="#{metadata.invoice.currency}">Waehrung</label>
+                    <select id="currency" th:field="*{currency}">
+                        <option value="EUR">EUR - Euro</option>
+                        <option value="USD">USD - US Dollar</option>
+                        <option value="GBP">GBP - British Pound</option>
+                        <option value="CHF">CHF - Swiss Franc</option>
+                    </select>
+                </div>
+                <div class="column column-33">
+                    <label for="buyerReference" th:text="#{metadata.invoice.buyerReference}">Kaeuferreferenz</label>
+                    <input type="text" id="buyerReference" th:field="*{buyerReference}">
+                </div>
+                <div class="column column-33">
+                    <label for="orderReference" th:text="#{metadata.invoice.orderReference}">Bestellreferenz</label>
+                    <input type="text" id="orderReference" th:field="*{orderReference}">
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Seller Section -->
+        <fieldset class="section section-seller">
+            <legend>
+                <span class="section-icon">&#127970;</span>
+                <span th:text="#{metadata.section.seller}">Verkaeufer</span>
+            </legend>
+            <div class="row">
+                <div class="column column-50">
+                    <label for="sellerName" th:text="#{metadata.party.name}">Name / Firma</label>
+                    <input type="text" id="sellerName" th:field="*{sellerName}" required>
+                </div>
+                <div class="column column-50">
+                    <label for="sellerVatId" th:text="#{metadata.party.vatId}">USt-IdNr.</label>
+                    <input type="text" id="sellerVatId" th:field="*{sellerVatId}" placeholder="DE123456789">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column column-50">
+                    <label for="sellerStreet" th:text="#{metadata.party.street}">Strasse</label>
+                    <input type="text" id="sellerStreet" th:field="*{sellerStreet}" required>
+                </div>
+                <div class="column column-25">
+                    <label for="sellerPostalCode" th:text="#{metadata.party.postalCode}">PLZ</label>
+                    <input type="text" id="sellerPostalCode" th:field="*{sellerPostalCode}" required>
+                </div>
+                <div class="column column-25">
+                    <label for="sellerCity" th:text="#{metadata.party.city}">Ort</label>
+                    <input type="text" id="sellerCity" th:field="*{sellerCity}" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="column column-33">
+                    <label for="sellerCountryCode" th:text="#{metadata.party.country}">Land</label>
+                    <select id="sellerCountryCode" th:field="*{sellerCountryCode}">
+                        <option th:each="entry : ${countries}"
+                                th:value="${entry.key}"
+                                th:text="${entry.value}">Land</option>
+                    </select>
+                </div>
+                <div class="column column-33">
+                    <label for="sellerEmail" th:text="#{metadata.party.email}">E-Mail</label>
+                    <input type="email" id="sellerEmail" th:field="*{sellerEmail}">
+                </div>
+                <div class="column column-33">
+                    <label for="sellerPhone" th:text="#{metadata.party.phone}">Telefon</label>
+                    <input type="tel" id="sellerPhone" th:field="*{sellerPhone}">
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Buyer Section -->
+        <fieldset class="section section-buyer">
+            <legend>
+                <span class="section-icon">&#128100;</span>
+                <span th:text="#{metadata.section.buyer}">Kaeufer</span>
+            </legend>
+            <div class="row">
+                <div class="column column-50">
+                    <label for="buyerName" th:text="#{metadata.party.name}">Name / Firma</label>
+                    <input type="text" id="buyerName" th:field="*{buyerName}" required>
+                </div>
+                <div class="column column-50">
+                    <label for="buyerVatId" th:text="#{metadata.party.vatId}">USt-IdNr.</label>
+                    <input type="text" id="buyerVatId" th:field="*{buyerVatId}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column column-50">
+                    <label for="buyerStreet" th:text="#{metadata.party.street}">Strasse</label>
+                    <input type="text" id="buyerStreet" th:field="*{buyerStreet}" required>
+                </div>
+                <div class="column column-25">
+                    <label for="buyerPostalCode" th:text="#{metadata.party.postalCode}">PLZ</label>
+                    <input type="text" id="buyerPostalCode" th:field="*{buyerPostalCode}" required>
+                </div>
+                <div class="column column-25">
+                    <label for="buyerCity" th:text="#{metadata.party.city}">Ort</label>
+                    <input type="text" id="buyerCity" th:field="*{buyerCity}" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="column column-33">
+                    <label for="buyerCountryCode" th:text="#{metadata.party.country}">Land</label>
+                    <select id="buyerCountryCode" th:field="*{buyerCountryCode}">
+                        <option th:each="entry : ${countries}"
+                                th:value="${entry.key}"
+                                th:text="${entry.value}">Land</option>
+                    </select>
+                </div>
+                <div class="column column-33">
+                    <label for="buyerEmail" th:text="#{metadata.party.email}">E-Mail</label>
+                    <input type="email" id="buyerEmail" th:field="*{buyerEmail}">
+                </div>
+                <div class="column column-33">
+                    <label for="buyerPhone" th:text="#{metadata.party.phone}">Telefon</label>
+                    <input type="tel" id="buyerPhone" th:field="*{buyerPhone}">
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Line Items Section -->
+        <fieldset class="section section-items">
+            <legend>
+                <span class="section-icon">&#128230;</span>
+                <span th:text="#{metadata.section.items}">Positionen</span>
+                <button type="button" class="button button-small button-clear" onclick="addItem()">
+                    + <span th:text="#{metadata.item.add}">Position hinzufuegen</span>
+                </button>
+            </legend>
+            <div class="table-wrapper">
+                <table id="itemsTable">
+                    <thead>
+                        <tr>
+                            <th th:text="#{metadata.item.description}">Beschreibung</th>
+                            <th class="col-qty" th:text="#{metadata.item.quantity}">Menge</th>
+                            <th class="col-unit" th:text="#{metadata.item.unit}">Einheit</th>
+                            <th class="col-price" th:text="#{metadata.item.unitPrice}">Preis</th>
+                            <th class="col-vat" th:text="#{metadata.item.vatRate}">MwSt %</th>
+                            <th class="col-net" th:text="#{metadata.item.netAmount}">Netto</th>
+                            <th class="col-action"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemsBody">
+                        <tr th:each="item, stat : *{items}" th:id="'item-row-' + ${stat.index}">
+                            <td>
+                                <input type="text" th:field="*{items[__${stat.index}__].description}" required>
+                            </td>
+                            <td>
+                                <input type="number" step="0.001" min="0.001" class="item-quantity"
+                                       th:field="*{items[__${stat.index}__].quantity}"
+                                       th:data-index="${stat.index}" required>
+                            </td>
+                            <td>
+                                <select th:field="*{items[__${stat.index}__].unit}">
+                                    <option th:each="entry : ${units}"
+                                            th:value="${entry.key}"
+                                            th:text="${entry.value}">Einheit</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="number" step="0.01" min="0" class="item-price"
+                                       th:field="*{items[__${stat.index}__].unitPrice}"
+                                       th:data-index="${stat.index}" required>
+                            </td>
+                            <td>
+                                <select class="item-vat"
+                                        th:field="*{items[__${stat.index}__].vatRate}"
+                                        th:data-index="${stat.index}">
+                                    <option th:each="rate : ${vatRates}"
+                                            th:value="${rate}"
+                                            th:text="${rate + ' %'}">19 %</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" th:id="'item-net-' + ${stat.index}" readonly class="input-readonly"
+                                       th:value="${item.quantity != null && item.unitPrice != null ? item.quantity * item.unitPrice : 0}">
+                            </td>
+                            <td>
+                                <button type="button" class="button button-small button-clear button-danger"
+                                        th:onclick="'removeItem(' + ${stat.index} + ')'"
+                                        th:disabled="${stat.size == 1}">&times;</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5" class="text-right"><strong>Summe Netto:</strong></td>
+                            <td><span id="totalNet">0.00</span> <span th:text="*{currency}">EUR</span></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" class="text-right"><strong>MwSt:</strong></td>
+                            <td><span id="totalVat">0.00</span> <span th:text="*{currency}">EUR</span></td>
+                            <td></td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="5" class="text-right"><strong>Gesamt Brutto:</strong></td>
+                            <td><strong><span id="totalGross">0.00</span> <span th:text="*{currency}">EUR</span></strong></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </fieldset>
+
+        <!-- Payment Section -->
+        <fieldset class="section section-payment">
+            <legend>
+                <span class="section-icon">&#128179;</span>
+                <span th:text="#{metadata.section.payment}">Zahlungsinformationen</span>
+            </legend>
+            <div class="row">
+                <div class="column column-50">
+                    <label for="bankIban" th:text="#{metadata.bank.iban}">IBAN</label>
+                    <input type="text" id="bankIban" th:field="*{bankIban}" placeholder="DE89 3704 0044 0532 0130 00">
+                </div>
+                <div class="column column-25">
+                    <label for="bankBic" th:text="#{metadata.bank.bic}">BIC</label>
+                    <input type="text" id="bankBic" th:field="*{bankBic}" placeholder="COBADEFFXXX">
+                </div>
+                <div class="column column-25">
+                    <label for="bankName" th:text="#{metadata.bank.name}">Bankname</label>
+                    <input type="text" id="bankName" th:field="*{bankName}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <label for="paymentTerms" th:text="#{metadata.payment.terms}">Zahlungsbedingungen</label>
+                    <input type="text" id="paymentTerms" th:field="*{paymentTerms}"
+                           placeholder="Zahlbar innerhalb von 14 Tagen ohne Abzug">
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Notes Section -->
+        <fieldset class="section section-notes">
+            <legend>
+                <span class="section-icon">&#128221;</span>
+                <span th:text="#{metadata.section.notes}">Anmerkungen</span>
+            </legend>
+            <div class="row">
+                <div class="column">
+                    <textarea id="notes" th:field="*{notes}" rows="3"
+                              placeholder="Optionale Anmerkungen..."></textarea>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Submit Buttons -->
+        <div class="form-actions">
+            <a th:href="@{/}" class="button button-outline">
+                <span>&larr;</span>
+                <span th:text="#{metadata.button.cancel}">Abbrechen</span>
+            </a>
+            <button type="submit" class="button button-primary" id="generateBtn">
+                <span class="spinner hidden" id="generateSpinner"></span>
+                <span th:text="#{metadata.button.generate}">E-Rechnung erstellen</span>
+                <span>&rarr;</span>
+            </button>
+        </div>
+    </form>
+</main>
+
+<th:block layout:fragment="scripts">
+<script th:inline="javascript">
+    const sessionId = [[${sessionId}]];
+
+    document.addEventListener('DOMContentLoaded', function() {
+        calculateTotals();
+
+        // Add event listeners for recalculation
+        document.querySelectorAll('.item-quantity, .item-price, .item-vat').forEach(function(el) {
+            el.addEventListener('change', calculateTotals);
+            el.addEventListener('input', calculateTotals);
+        });
+
+        // Form submission
+        document.getElementById('invoiceForm').addEventListener('submit', function() {
+            document.getElementById('generateBtn').disabled = true;
+            document.getElementById('generateSpinner').classList.remove('hidden');
+        });
+    });
+
+    function addItem() {
+        const form = document.getElementById('invoiceForm');
+        form.action = `/metadata/${sessionId}/add-item`;
+        form.submit();
+    }
+
+    function removeItem(index) {
+        const form = document.getElementById('invoiceForm');
+        form.action = `/metadata/${sessionId}/remove-item/${index}`;
+        form.submit();
+    }
+
+    function calculateTotals() {
+        let totalNet = 0;
+        let totalVat = 0;
+
+        document.querySelectorAll('#itemsBody tr').forEach(function(row, index) {
+            const qty = parseFloat(row.querySelector('.item-quantity')?.value) || 0;
+            const price = parseFloat(row.querySelector('.item-price')?.value) || 0;
+            const vatRate = parseFloat(row.querySelector('.item-vat')?.value) || 0;
+
+            const net = qty * price;
+            const vat = net * vatRate / 100;
+
+            const netField = document.getElementById('item-net-' + index);
+            if (netField) {
+                netField.value = net.toFixed(2);
+            }
+
+            totalNet += net;
+            totalVat += vat;
+        });
+
+        document.getElementById('totalNet').textContent = totalNet.toFixed(2);
+        document.getElementById('totalVat').textContent = totalVat.toFixed(2);
+        document.getElementById('totalGross').textContent = (totalNet + totalVat).toFixed(2);
+    }
+</script>
+</th:block>
+</body>
+</html>

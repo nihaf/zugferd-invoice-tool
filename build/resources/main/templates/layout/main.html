@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      th:lang="${#locale.language}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" th:content="#{app.description}">
+    <title layout:title-pattern="$CONTENT_TITLE - E-Rechnung">E-Rechnung Tool</title>
+
+    <!-- Normalize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <!-- Milligram CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.min.css">
+    <!-- Google Fonts - Clean sans-serif -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container">
+            <div class="row">
+                <div class="column">
+                    <nav class="navigation">
+                        <a th:href="@{/}" class="brand">
+                            <span class="brand-icon">&#9998;</span>
+                            <span class="brand-text" th:text="#{app.title}">E-Rechnung Tool</span>
+                        </a>
+                        <div class="nav-right">
+                            <div class="locale-switcher">
+                                <a th:href="@{/locale(lang='de')}" class="locale-link" th:classappend="${#locale.language == 'de'} ? 'active'">DE</a>
+                                <span class="locale-sep">|</span>
+                                <a th:href="@{/locale(lang='en')}" class="locale-link" th:classappend="${#locale.language == 'en'} ? 'active'">EN</a>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Flash Messages -->
+    <th:block th:if="${message != null or error != null}">
+        <div class="container">
+            <div class="row">
+                <div class="column">
+                    <div th:if="${message}" class="alert alert-success">
+                        <span th:text="#{${message}}">Message</span>
+                    </div>
+                    <div th:if="${error}" class="alert alert-error">
+                        <span th:text="${#messages.msgOrNull(error)} ?: ${error}">Error</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+
+    <!-- Main Content -->
+    <main class="site-content">
+        <div class="container">
+            <div layout:fragment="content">
+                <!-- Page content will be inserted here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="column column-100">
+                    <p>
+                        <span th:text="#{app.title}">E-Rechnung Tool</span>
+                        <span class="separator">&middot;</span>
+                        ZUGFeRD 2.1 / Factur-X
+                        <span class="separator">&middot;</span>
+                        <span th:text="#{footer.powered}">Powered by Mustang</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Locale Switcher JS -->
+    <script th:src="@{/js/locale-switcher.js}"></script>
+
+    <!-- Page-specific scripts -->
+    <th:block layout:fragment="scripts"></th:block>
+</body>
+</html>

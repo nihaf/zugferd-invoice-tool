@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<head>
+    <title th:text="#{result.title}">Ergebnis</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <div class="result-page">
+        <!-- Success Case -->
+        <th:block th:if="${statusType == 'Completed'}">
+            <!-- Success Header -->
+            <div class="result-header result-success">
+                <div class="result-icon">&#10003;</div>
+                <h1 th:text="#{result.success.title}">Erfolgreich!</h1>
+                <p th:text="#{result.success.message}">
+                    Ihre E-Rechnung wurde erfolgreich erstellt.
+                </p>
+            </div>
+
+            <!-- Validation Result -->
+            <div class="card" th:with="vr=${validationResult}">
+                <div class="card-header" th:classappend="${vr.valid} ? 'card-header-success' : 'card-header-warning'">
+                    <h3 class="card-title">
+                        <span th:if="${vr.valid}">&#10003;</span>
+                        <span th:unless="${vr.valid}">&#9888;</span>
+                        <span th:text="#{result.validation.title}">PDF/A-3 Validierung</span>
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="column column-50">
+                            <p>
+                                <strong>Status:</strong>
+                                <span th:if="${vr.valid}" class="badge badge-success"
+                                      th:text="#{result.validation.passed}">Bestanden</span>
+                                <span th:unless="${vr.valid}" class="badge badge-warning"
+                                      th:text="#{result.validation.failed}">Nicht bestanden</span>
+                            </p>
+                            <p>
+                                <strong>Profil:</strong>
+                                <span th:text="${vr.profileName}">PDF/A-3B</span>
+                            </p>
+                        </div>
+                        <div class="column column-50">
+                            <p>
+                                <strong th:text="#{result.validation.errors}">Fehler</strong>:
+                                <span th:text="${vr.errorCount()}">0</span>
+                            </p>
+                            <p>
+                                <strong th:text="#{result.validation.warnings}">Warnungen</strong>:
+                                <span th:text="${vr.warningCount()}">0</span>
+                            </p>
+                            <p class="text-muted">
+                                <small>
+                                    <span th:text="#{result.validation.time}">Verarbeitungszeit</span>:
+                                    <span th:text="${vr.processingTimeMs}">100</span> ms
+                                </small>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Errors Details -->
+                    <div th:if="${!vr.errors.isEmpty()}" class="validation-details">
+                        <h4 class="text-danger">Fehler:</h4>
+                        <ul>
+                            <li th:each="err : ${vr.errors}">
+                                <code th:text="${err.ruleId}">Rule</code>:
+                                <span th:text="${err.description}">Beschreibung</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Warnings Details -->
+                    <div th:if="${!vr.warnings.isEmpty()}" class="validation-details">
+                        <h4 class="text-warning">Warnungen:</h4>
+                        <ul>
+                            <li th:each="warn : ${vr.warnings}">
+                                <code th:text="${warn.ruleId}">Rule</code>:
+                                <span th:text="${warn.message}">Nachricht</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Invoice Summary -->
+            <div class="card" th:with="meta=${metadata}">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <span>&#128196;</span>
+                        <span th:text="#{result.summary.title}">Zusammenfassung</span>
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="column column-50">
+                            <table class="table-simple">
+                                <tr>
+                                    <th th:text="#{result.summary.invoiceNumber}">Rechnungsnummer</th>
+                                    <td th:text="${meta.invoiceNumber}">INV-001</td>
+                                </tr>
+                                <tr>
+                                    <th th:text="#{result.summary.seller}">Verkaeufer</th>
+                                    <td th:text="${meta.seller.name}">Firma A</td>
+                                </tr>
+                                <tr>
+                                    <th th:text="#{result.summary.buyer}">Kaeufer</th>
+                                    <td th:text="${meta.buyer.name}">Firma B</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="column column-50">
+                            <table class="table-simple">
+                                <tr>
+                                    <th th:text="#{result.summary.netAmount}">Netto</th>
+                                    <td th:text="${#numbers.formatDecimal(meta.totalNetAmount(), 1, 2)} + ' ' + ${meta.currency}">
+                                        100.00 EUR
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th th:text="#{result.summary.vatAmount}">MwSt</th>
+                                    <td th:text="${#numbers.formatDecimal(meta.totalVatAmount(), 1, 2)} + ' ' + ${meta.currency}">
+                                        19.00 EUR
+                                    </td>
+                                </tr>
+                                <tr class="total-row">
+                                    <th th:text="#{result.summary.grossAmount}">Brutto</th>
+                                    <td>
+                                        <strong th:text="${#numbers.formatDecimal(meta.totalGrossAmount(), 1, 2)} + ' ' + ${meta.currency}">
+                                            119.00 EUR
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Download Buttons -->
+            <div class="download-actions">
+                <a th:href="@{/download/{id}(id=${sessionId})}" class="button button-primary button-large">
+                    <span>&#8595;</span>
+                    <span th:text="#{result.button.download}">Herunterladen</span>
+                </a>
+                <a th:href="@{/preview/{id}(id=${sessionId})}" class="button button-outline button-large" target="_blank">
+                    <span>&#128065;</span>
+                    <span th:text="#{result.button.preview}">Vorschau</span>
+                </a>
+            </div>
+        </th:block>
+
+        <!-- Failed Case -->
+        <th:block th:if="${statusType == 'Failed'}">
+            <div class="result-header result-error">
+                <div class="result-icon">&#10007;</div>
+                <h1 th:text="#{result.failed.title}">Fehler</h1>
+                <p th:text="#{result.failed.message}">
+                    Bei der Erstellung ist ein Fehler aufgetreten.
+                </p>
+            </div>
+
+            <div class="card card-error">
+                <div class="card-body">
+                    <h4 th:text="${errorMessage}">Fehlermeldung</h4>
+                    <p th:if="${errorDetails}" class="text-muted" th:text="${errorDetails}">Details</p>
+                </div>
+            </div>
+        </th:block>
+
+        <!-- Processing Case -->
+        <th:block th:if="${statusType == 'Processing'}">
+            <div class="result-header result-processing">
+                <div class="spinner-large"></div>
+                <h1>Verarbeitung...</h1>
+                <p>Ihre E-Rechnung wird erstellt.</p>
+            </div>
+            <script>
+                setTimeout(function() { location.reload(); }, 2000);
+            </script>
+        </th:block>
+
+        <!-- Action Buttons -->
+        <div class="result-actions">
+            <a th:href="@{/}" class="button button-outline">
+                <span>&#128196;</span>
+                <span th:text="#{result.button.newInvoice}">Neue Rechnung</span>
+            </a>
+            <form th:action="@{/cleanup/{id}(id=${sessionId})}" method="post" class="inline-form">
+                <button type="submit" class="button button-outline button-danger"
+                        onclick="return confirm('Sitzung wirklich loeschen?');">
+                    <span>&#128465;</span>
+                    <span th:text="#{result.button.delete}">Loeschen</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>

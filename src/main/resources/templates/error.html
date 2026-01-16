@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<head>
+    <title th:text="#{error.title}">Fehler</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <div class="error-page">
+        <div class="error-header">
+            <div class="error-icon">&#9888;</div>
+            <h1 th:text="#{error.title}">Fehler</h1>
+        </div>
+
+        <div class="card card-error">
+            <div class="card-header card-header-error">
+                <span th:text="#{error.code}">Fehlercode</span>:
+                <strong th:text="${errorCode} ?: 'UNKNOWN'">ERROR</strong>
+            </div>
+            <div class="card-body">
+                <h4 th:text="${errorMessage} ?: 'Ein Fehler ist aufgetreten'">
+                    Ein Fehler ist aufgetreten
+                </h4>
+                <p th:if="${errorDetails}" class="text-muted" th:text="${errorDetails}">
+                    Fehlerdetails
+                </p>
+
+                <!-- Validation Errors -->
+                <div th:if="${validationResult != null && !validationResult.errors.isEmpty()}" class="validation-details">
+                    <h5>Validierungsfehler:</h5>
+                    <ul>
+                        <li th:each="err : ${validationResult.errors}">
+                            <code th:text="${err.ruleId}">Rule</code>:
+                            <span th:text="${err.description}">Beschreibung</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="error-actions">
+            <a th:href="@{/}" class="button button-primary">
+                <span>&larr;</span>
+                <span th:text="#{error.back}">Zurueck zur Startseite</span>
+            </a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

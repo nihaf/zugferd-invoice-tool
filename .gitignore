@@ -1,0 +1,12 @@
+target/
+.idea/
+.settings/
+.vscode/
+build/
+out/
+bin/
+logs/
+*.log
+*.tmp
+~/.gradle/
+.gradle/
