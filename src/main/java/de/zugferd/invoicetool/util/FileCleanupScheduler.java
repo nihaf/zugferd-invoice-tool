@@ -53,7 +53,7 @@ public class FileCleanupScheduler {
                 // 1. Sie bereits heruntergeladen wurde
                 // 2. Sie älter als die Retention-Zeit ist
                 boolean shouldClean = switch (status) {
-                    case ProcessingStatus.Downloaded _ -> true;
+                    case ProcessingStatus.Downloaded p -> true;
                     default -> status.timestamp().isBefore(expirationThreshold);
                 };
                 

@@ -89,7 +89,8 @@ public sealed interface ProcessingStatus {
      */
     default boolean isTerminal() {
         return switch (this) {
-            case Failed _, Downloaded _ -> true;
+            case Downloaded d -> true;
+            case Failed f -> true;
             default -> false;
         };
     }

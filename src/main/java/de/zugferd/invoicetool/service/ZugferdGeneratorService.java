@@ -1,6 +1,5 @@
 package de.zugferd.invoicetool.service;
 
-import de.zugferd.invoicetool.config.AppConfig.ZugferdProperties;
 import de.zugferd.invoicetool.exception.InvoiceProcessingException;
 import de.zugferd.invoicetool.model.InvoiceItem;
 import de.zugferd.invoicetool.model.InvoiceMetadata;
@@ -12,7 +11,6 @@ import org.mustangproject.ZUGFeRD.IZUGFeRDExportableItem;
 import org.mustangproject.ZUGFeRD.IZUGFeRDExportableTradeParty;
 import org.mustangproject.ZUGFeRD.IZUGFeRDExportableContact;
 import org.mustangproject.ZUGFeRD.IZUGFeRDAllowanceCharge;
-import org.mustangproject.ZUGFeRD.IZUGFeRDPaymentTerms;
 import org.mustangproject.ZUGFeRD.IZUGFeRDTradeSettlementPayment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +22,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Date;
 import java.time.ZoneId;
-import java.util.List;
 
 /**
  * Service für die Generierung von ZUGFeRD E-Rechnungen.
@@ -35,12 +32,9 @@ public class ZugferdGeneratorService {
     
     private static final Logger log = LoggerFactory.getLogger(ZugferdGeneratorService.class);
     
-    private final ZugferdProperties zugferdProperties;
     private final PdfA3ConverterService pdfA3ConverterService;
     
-    public ZugferdGeneratorService(ZugferdProperties zugferdProperties, 
-                                    PdfA3ConverterService pdfA3ConverterService) {
-        this.zugferdProperties = zugferdProperties;
+    public ZugferdGeneratorService(PdfA3ConverterService pdfA3ConverterService) {
         this.pdfA3ConverterService = pdfA3ConverterService;
     }
     
@@ -54,7 +48,7 @@ public class ZugferdGeneratorService {
     public void generateInvoice(Path inputPdfPath, Path outputPdfPath, InvoiceMetadata metadata) {
         log.info("Generating ZUGFeRD invoice: {} -> {}", inputPdfPath, outputPdfPath);
         
-        try {
+        try (ZUGFeRDExporterFromA3 exporter = new ZUGFeRDExporterFromA3()) {
             // Zuerst PDF/A-3 konvertieren
             Path pdfA3Path = pdfA3ConverterService.convertToPdfA3(inputPdfPath);
             
@@ -62,7 +56,6 @@ public class ZugferdGeneratorService {
             Files.createDirectories(outputPdfPath.getParent());
             
             // ZUGFeRD-Export durchführen
-            ZUGFeRDExporterFromA3 exporter = new ZUGFeRDExporterFromA3();
             exporter.setProducer("ZUGFeRD Invoice Tool");
             exporter.setCreator("ZUGFeRD Invoice Tool v1.0");
             exporter.setZUGFeRDVersion(2);
