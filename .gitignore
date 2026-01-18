@@ -4,6 +4,7 @@ target/
 .vscode/
 .history/
 build/
+**/build
 out/
 bin/
 logs/

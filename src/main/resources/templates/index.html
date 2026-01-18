@@ -7,6 +7,24 @@
 </head>
 <body>
 <main layout:fragment="content">
+    <!-- Wizard Steps -->
+    <nav class="wizard-steps" aria-label="Progress">
+        <div class="wizard-step active">
+            <span class="wizard-step-number">1</span>
+            <span class="wizard-step-label" th:text="#{wizard.step.upload}">Upload</span>
+        </div>
+        <div class="wizard-step-connector"></div>
+        <div class="wizard-step">
+            <span class="wizard-step-number">2</span>
+            <span class="wizard-step-label" th:text="#{wizard.step.metadata}">Daten</span>
+        </div>
+        <div class="wizard-step-connector"></div>
+        <div class="wizard-step">
+            <span class="wizard-step-number">3</span>
+            <span class="wizard-step-label" th:text="#{wizard.step.result}">Ergebnis</span>
+        </div>
+    </nav>
+
     <!-- Hero Section -->
     <section class="hero">
         <h1 th:text="#{index.title}">E-Rechnung erstellen</h1>

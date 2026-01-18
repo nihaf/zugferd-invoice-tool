@@ -7,6 +7,24 @@
 </head>
 <body>
 <main layout:fragment="content">
+    <!-- Wizard Steps -->
+    <nav class="wizard-steps" aria-label="Progress">
+        <div class="wizard-step completed">
+            <span class="wizard-step-number">&#10003;</span>
+            <span class="wizard-step-label" th:text="#{wizard.step.upload}">Upload</span>
+        </div>
+        <div class="wizard-step-connector"></div>
+        <div class="wizard-step active">
+            <span class="wizard-step-number">2</span>
+            <span class="wizard-step-label" th:text="#{wizard.step.metadata}">Daten</span>
+        </div>
+        <div class="wizard-step-connector"></div>
+        <div class="wizard-step">
+            <span class="wizard-step-number">3</span>
+            <span class="wizard-step-label" th:text="#{wizard.step.result}">Ergebnis</span>
+        </div>
+    </nav>
+
     <!-- Page Header -->
     <div class="page-header">
         <div class="row">
@@ -38,12 +56,15 @@
         </div>
 
         <!-- Invoice Data Section -->
-        <fieldset class="section section-invoice">
-            <legend>
-                <span class="section-icon">&#128196;</span>
-                <span th:text="#{metadata.section.invoice}">Rechnungsdaten</span>
-            </legend>
-            <div class="row">
+        <div class="form-section">
+            <div class="form-section-header">
+                <h2 class="form-section-title">
+                    <span class="section-icon">&#128196;</span>
+                    <span th:text="#{metadata.section.invoice}">Rechnungsdaten</span>
+                </h2>
+            </div>
+            <div class="form-section-body">
+                <div class="row">
                 <div class="column column-33">
                     <label for="invoiceNumber" th:text="#{metadata.invoice.number}">Rechnungsnummer</label>
                     <input type="text" id="invoiceNumber" th:field="*{invoiceNumber}"
@@ -77,15 +98,19 @@
                     <input type="text" id="orderReference" th:field="*{orderReference}">
                 </div>
             </div>
-        </fieldset>
+            </div>
+        </div>
 
         <!-- Seller Section -->
-        <fieldset class="section section-seller">
-            <legend>
-                <span class="section-icon">&#127970;</span>
-                <span th:text="#{metadata.section.seller}">Verkaeufer</span>
-            </legend>
-            <div class="row">
+        <div class="form-section">
+            <div class="form-section-header">
+                <h2 class="form-section-title">
+                    <span class="section-icon">&#127970;</span>
+                    <span th:text="#{metadata.section.seller}">Verkaeufer</span>
+                </h2>
+            </div>
+            <div class="form-section-body">
+                <div class="row">
                 <div class="column column-50">
                     <label for="sellerName" th:text="#{metadata.party.name}">Name / Firma</label>
                     <input type="text" id="sellerName" th:field="*{sellerName}" required>
@@ -127,15 +152,19 @@
                     <input type="tel" id="sellerPhone" th:field="*{sellerPhone}">
                 </div>
             </div>
-        </fieldset>
+            </div>
+        </div>
 
         <!-- Buyer Section -->
-        <fieldset class="section section-buyer">
-            <legend>
-                <span class="section-icon">&#128100;</span>
-                <span th:text="#{metadata.section.buyer}">Kaeufer</span>
-            </legend>
-            <div class="row">
+        <div class="form-section">
+            <div class="form-section-header">
+                <h2 class="form-section-title">
+                    <span class="section-icon">&#128100;</span>
+                    <span th:text="#{metadata.section.buyer}">Kaeufer</span>
+                </h2>
+            </div>
+            <div class="form-section-body">
+                <div class="row">
                 <div class="column column-50">
                     <label for="buyerName" th:text="#{metadata.party.name}">Name / Firma</label>
                     <input type="text" id="buyerName" th:field="*{buyerName}" required>
@@ -177,18 +206,22 @@
                     <input type="tel" id="buyerPhone" th:field="*{buyerPhone}">
                 </div>
             </div>
-        </fieldset>
+            </div>
+        </div>
 
         <!-- Line Items Section -->
-        <fieldset class="section section-items">
-            <legend>
-                <span class="section-icon">&#128230;</span>
-                <span th:text="#{metadata.section.items}">Positionen</span>
+        <div class="form-section">
+            <div class="form-section-header">
+                <h2 class="form-section-title">
+                    <span class="section-icon">&#128230;</span>
+                    <span th:text="#{metadata.section.items}">Positionen</span>
+                </h2>
                 <button type="button" class="button button-small button-clear" onclick="addItem()">
                     + <span th:text="#{metadata.item.add}">Position hinzufuegen</span>
                 </button>
-            </legend>
-            <div class="table-wrapper">
+            </div>
+            <div class="form-section-body">
+                <div class="table-wrapper">
                 <table id="itemsTable">
                     <thead>
                         <tr>
@@ -262,15 +295,19 @@
                     </tfoot>
                 </table>
             </div>
-        </fieldset>
+            </div>
+        </div>
 
         <!-- Payment Section -->
-        <fieldset class="section section-payment">
-            <legend>
-                <span class="section-icon">&#128179;</span>
-                <span th:text="#{metadata.section.payment}">Zahlungsinformationen</span>
-            </legend>
-            <div class="row">
+        <div class="form-section">
+            <div class="form-section-header">
+                <h2 class="form-section-title">
+                    <span class="section-icon">&#128179;</span>
+                    <span th:text="#{metadata.section.payment}">Zahlungsinformationen</span>
+                </h2>
+            </div>
+            <div class="form-section-body">
+                <div class="row">
                 <div class="column column-50">
                     <label for="bankIban" th:text="#{metadata.bank.iban}">IBAN</label>
                     <input type="text" id="bankIban" th:field="*{bankIban}" placeholder="DE89 3704 0044 0532 0130 00">
@@ -291,21 +328,26 @@
                            th:placeholder="#{metadata.payment.terms.placeholder}">
                 </div>
             </div>
-        </fieldset>
+            </div>
+        </div>
 
         <!-- Notes Section -->
-        <fieldset class="section section-notes">
-            <legend>
-                <span class="section-icon">&#128221;</span>
-                <span th:text="#{metadata.section.notes}">Anmerkungen</span>
-            </legend>
-            <div class="row">
+        <div class="form-section">
+            <div class="form-section-header">
+                <h2 class="form-section-title">
+                    <span class="section-icon">&#128221;</span>
+                    <span th:text="#{metadata.section.notes}">Anmerkungen</span>
+                </h2>
+            </div>
+            <div class="form-section-body">
+                <div class="row">
                 <div class="column">
                     <textarea id="notes" th:field="*{notes}" rows="3"
                               th:placeholder="#{metadata.notes.placeholder}"></textarea>
                 </div>
             </div>
-        </fieldset>
+            </div>
+        </div>
 
         <!-- Submit Buttons -->
         <div class="form-actions">
