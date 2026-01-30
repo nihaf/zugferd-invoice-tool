@@ -32,12 +32,7 @@ dependencies {
     
     // VeraPDF for PDF/A-3 Validation
     implementation(libs.bundles.verapdf)
-    
-    // Utilities
-    implementation(libs.commons.lang3)
-    implementation(libs.commons.io)
-    
-    
+
     // Testing
     testImplementation(libs.bundles.testing)
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
