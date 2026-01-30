@@ -3,12 +3,15 @@ target/
 .settings/
 .vscode/
 .history/
+
+# Gradle
 build/
-**/build
+**/build/
+.gradle/
 out/
 bin/
+
+# Logs
 logs/
 *.log
 *.tmp
-~/.gradle/
-.gradle/
