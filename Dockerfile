@@ -61,7 +61,7 @@ ENV SPRING_PROFILES_ACTIVE=docker
 EXPOSE 8080
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+HEALTHCHECK --interval=5s --timeout=10s --start-period=10s --retries=10 \
     CMD curl -f http://localhost:8080/actuator/health || exit 1
 
 # Entry point
