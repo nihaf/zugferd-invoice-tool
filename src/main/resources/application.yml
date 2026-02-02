@@ -112,21 +112,21 @@ invoice:
   defaults:
     # Seller Information (Company)
     seller:
-      name: "Acme Corporation"
-      vat-id: "DE123456789"
-      street: "Main Street 42"
-      postal-code: "10115"
-      city: "Berlin"
+      name: "CodeMatrosen GmbH"
+      vat-id: "DE288088"
+      street: "Frederic-Chopin-Weg 5"
+      postal-code: "21423"
+      city: "Winsen (Luhe)"
       country-code: "DE"
-      email: "sales@acme-corp.de"
-      phone: "+49 30 123456789"
+      email: "nils.haffke@codematrosen.de"
+      phone: "+49 171 1967245"
 
     # Payment Information
     payment:
-      iban: "DE89370400440532013000"
-      bic: "COBADEFFXXX"
-      bank-name: "Commerzbank"
-      terms: "Net 30 days"
+      iban: "DE34430609671300411500"
+      bic: "GENODEM1GLS"
+      bank-name: "GLS Bank"
+      terms: "30 Werktage"
 
     # Invoice Defaults
     invoice:

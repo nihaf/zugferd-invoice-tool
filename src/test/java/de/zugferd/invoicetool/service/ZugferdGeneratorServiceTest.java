@@ -1,6 +1,5 @@
 package de.zugferd.invoicetool.service;
 
-import de.zugferd.invoicetool.config.AppConfig.ZugferdProperties;
 import de.zugferd.invoicetool.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -8,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.math.BigDecimal;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.Currency;
@@ -29,12 +27,8 @@ class ZugferdGeneratorServiceTest {
     
     @BeforeEach
     void setUp() {
-        ZugferdProperties properties = new ZugferdProperties();
-        properties.setProfile("EN16931");
-        properties.setVersion("2.3");
-        
         pdfA3ConverterService = new PdfA3ConverterService();
-        zugferdGeneratorService = new ZugferdGeneratorService(properties, pdfA3ConverterService);
+        zugferdGeneratorService = new ZugferdGeneratorService(pdfA3ConverterService);
     }
     
     @Test

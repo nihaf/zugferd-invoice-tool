@@ -13,34 +13,32 @@
             <h1 th:text="#{error.title}">Fehler</h1>
         </div>
 
-        <div class="card card-error">
-            <div class="card-header card-header-error">
+        <article class="card-error">
+            <header>
                 <span th:text="#{error.code}">Fehlercode</span>:
                 <strong th:text="${errorCode} ?: 'UNKNOWN'">ERROR</strong>
-            </div>
-            <div class="card-body">
-                <h4 th:text="${errorMessage} ?: #{error.generic}">
-                    Ein Fehler ist aufgetreten
-                </h4>
-                <p th:if="${errorDetails}" class="text-muted" th:text="${errorDetails}">
-                    Fehlerdetails
-                </p>
+            </header>
+            <h4 th:text="${errorMessage} ?: #{error.generic}">
+                Ein Fehler ist aufgetreten
+            </h4>
+            <p th:if="${errorDetails}" class="text-muted" th:text="${errorDetails}">
+                Fehlerdetails
+            </p>
 
-                <!-- Validation Errors -->
-                <div th:if="${validationResult != null && !validationResult.errors.isEmpty()}" class="validation-details">
-                    <h5 th:text="#{error.validation.title}">Validierungsfehler:</h5>
-                    <ul>
-                        <li th:each="err : ${validationResult.errors}">
-                            <code th:text="${err.ruleId}">Rule</code>:
-                            <span th:text="${err.description}">Beschreibung</span>
-                        </li>
-                    </ul>
-                </div>
+            <!-- Validation Errors -->
+            <div th:if="${validationResult != null && !validationResult.errors.isEmpty()}" class="validation-details">
+                <h5 th:text="#{error.validation.title}">Validierungsfehler:</h5>
+                <ul>
+                    <li th:each="err : ${validationResult.errors}">
+                        <code th:text="${err.ruleId}">Rule</code>:
+                        <span th:text="${err.description}">Beschreibung</span>
+                    </li>
+                </ul>
             </div>
-        </div>
+        </article>
 
         <div class="error-actions">
-            <a th:href="@{/}" class="button button-primary">
+            <a th:href="@{/}" role="button">
                 <span>&larr;</span>
                 <span th:text="#{error.back}">Zurueck zur Startseite</span>
             </a>

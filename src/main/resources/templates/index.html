@@ -33,91 +33,84 @@
         </p>
     </section>
 
-    <div class="row">
+    <div class="grid-2-1">
         <!-- Upload Section -->
-        <div class="column column-67">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title" th:text="#{index.upload.title}">PDF hochladen</h3>
-                </div>
-                <div class="card-body">
-                    <form th:action="@{/upload}" method="post" enctype="multipart/form-data" id="uploadForm">
-                        <!-- Drop Zone -->
-                        <div class="upload-zone" id="dropZone">
-                            <div class="upload-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                    <polyline points="17 8 12 3 7 8"/>
-                                    <line x1="12" y1="3" x2="12" y2="15"/>
-                                </svg>
-                            </div>
-                            <p class="upload-text" th:text="#{index.upload.description}">
-                                PDF-Datei hier ablegen oder auswaehlen
-                            </p>
-                            <input type="file" name="file" id="fileInput" accept="application/pdf" class="hidden" required>
-                            <button type="button" class="button button-outline" id="chooseFileBtn">
-                                <span th:text="#{index.upload.button}">Datei auswaehlen</span>
-                            </button>
-                            <p class="upload-hint" th:text="#{index.upload.hint}">
-                                Maximale Dateigrösse: 10 MB
-                            </p>
+        <div>
+            <article>
+                <header>
+                    <strong th:text="#{index.upload.title}">PDF hochladen</strong>
+                </header>
+                <form th:action="@{/upload}" method="post" enctype="multipart/form-data" id="uploadForm">
+                    <!-- Drop Zone -->
+                    <div class="upload-zone" id="dropZone">
+                        <div class="upload-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17 8 12 3 7 8"/>
+                                <line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
                         </div>
-
-                        <!-- Selected File Info -->
-                        <div id="fileInfo" class="file-info hidden">
-                            <span class="file-icon">&#128196;</span>
-                            <span class="file-name" id="fileName"></span>
-                            <span class="file-size" id="fileSize"></span>
-                        </div>
-
-                        <!-- Submit Button -->
-                        <button type="submit" class="button button-primary button-large button-block" id="submitBtn" disabled>
-                            <span class="spinner hidden" id="uploadSpinner"></span>
-                            <span th:text="#{index.upload.continue}">Weiter</span>
-                            <span class="arrow">&#8594;</span>
+                        <p class="upload-text" th:text="#{index.upload.description}">
+                            PDF-Datei hier ablegen oder auswaehlen
+                        </p>
+                        <input type="file" name="file" id="fileInput" accept="application/pdf" class="hidden" required>
+                        <button type="button" class="secondary" id="chooseFileBtn">
+                            <span th:text="#{index.upload.button}">Datei auswaehlen</span>
                         </button>
-                    </form>
-                </div>
-            </div>
+                        <p class="upload-hint" th:text="#{index.upload.hint}">
+                            Maximale Dateigrösse: 10 MB
+                        </p>
+                    </div>
+
+                    <!-- Selected File Info -->
+                    <div id="fileInfo" class="file-info hidden">
+                        <span class="file-icon">&#128196;</span>
+                        <span class="file-name" id="fileName"></span>
+                        <span class="file-size" id="fileSize"></span>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" id="submitBtn" disabled>
+                        <span th:text="#{index.upload.continue}">Weiter</span>
+                        <span>&#8594;</span>
+                    </button>
+                </form>
+            </article>
         </div>
 
         <!-- Features Section -->
-        <div class="column column-33">
-            <div class="card card-features">
-                <div class="card-header">
-                    <h3 class="card-title" th:text="#{index.features.title}">Funktionen</h3>
-                </div>
-                <div class="card-body">
-                    <ul class="feature-list">
-                        <li>
-                            <span class="check">&#10003;</span>
-                            <span th:text="#{index.features.zugferd}">ZUGFeRD 2.1 konform</span>
-                        </li>
-                        <li>
-                            <span class="check">&#10003;</span>
-                            <span th:text="#{index.features.pdfa3}">PDF/A-3 Standard</span>
-                        </li>
-                        <li>
-                            <span class="check">&#10003;</span>
-                            <span th:text="#{index.features.validation}">VeraPDF Validierung</span>
-                        </li>
-                        <li>
-                            <span class="check">&#10003;</span>
-                            <span th:text="#{index.features.en16931}">EN16931 Profil</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+        <div>
+            <article>
+                <header>
+                    <strong th:text="#{index.features.title}">Funktionen</strong>
+                </header>
+                <ul class="feature-list">
+                    <li>
+                        <span class="check">&#10003;</span>
+                        <span th:text="#{index.features.zugferd}">ZUGFeRD 2.1 konform</span>
+                    </li>
+                    <li>
+                        <span class="check">&#10003;</span>
+                        <span th:text="#{index.features.pdfa3}">PDF/A-3 Standard</span>
+                    </li>
+                    <li>
+                        <span class="check">&#10003;</span>
+                        <span th:text="#{index.features.validation}">VeraPDF Validierung</span>
+                    </li>
+                    <li>
+                        <span class="check">&#10003;</span>
+                        <span th:text="#{index.features.en16931}">EN16931 Profil</span>
+                    </li>
+                </ul>
+            </article>
 
-            <div class="card card-info">
-                <div class="card-body">
-                    <h4 th:text="#{index.info.title}">Was ist ZUGFeRD?</h4>
-                    <p th:text="#{index.info.description}">
-                        ZUGFeRD ist ein deutsches Format fuer elektronische Rechnungen,
-                        das eine PDF-Datei mit eingebetteten XML-Daten kombiniert.
-                    </p>
-                </div>
-            </div>
+            <article>
+                <h4 th:text="#{index.info.title}">Was ist ZUGFeRD?</h4>
+                <p th:text="#{index.info.description}">
+                    ZUGFeRD ist ein deutsches Format fuer elektronische Rechnungen,
+                    das eine PDF-Datei mit eingebetteten XML-Daten kombiniert.
+                </p>
+            </article>
         </div>
     </div>
 </main>
@@ -132,7 +125,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const fileSize = document.getElementById('fileSize');
     const submitBtn = document.getElementById('submitBtn');
     const uploadForm = document.getElementById('uploadForm');
-    const uploadSpinner = document.getElementById('uploadSpinner');
 
     // Drag and Drop
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
@@ -203,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Form submission
     uploadForm.addEventListener('submit', function() {
         submitBtn.disabled = true;
-        uploadSpinner.classList.remove('hidden');
+        submitBtn.setAttribute('aria-busy', 'true');
     });
 });
 </script>

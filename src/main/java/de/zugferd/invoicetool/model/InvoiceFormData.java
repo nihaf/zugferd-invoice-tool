@@ -4,6 +4,7 @@ import de.zugferd.invoicetool.config.AppConfig;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,8 +22,10 @@ public class InvoiceFormData {
     private String invoiceNumber;
     
     @NotNull(message = "{validation.invoice.issueDate.required}")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate issueDate;
-    
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dueDate;
     
     private String currency = "EUR";
@@ -180,6 +183,10 @@ public class InvoiceFormData {
         }
         if (dueDate == null) {
             dueDate = issueDate.plusDays(30);
+        }
+        if (invoiceNumber == null || invoiceNumber.isBlank()) {
+            // Format: "01" + zweistelliger Monat + "-" + Jahr (z.B. "0103-2026")
+            invoiceNumber = String.format("01%02d-%d", issueDate.getMonthValue(), issueDate.getYear());
         }
 
         // Vorgaben aus Konfiguration anwenden, falls vorhanden
