@@ -14,8 +14,10 @@ Ein webbasiertes Tool zur Erstellung von PDF/A-3 konformen E-Rechnungen nach dem
 
 ## 📋 Voraussetzungen
 
-- **Java 25** (mit Preview Features)
-- **Gradle 8.12+** (wird über Wrapper bereitgestellt)
+- **Java 21** mit Preview Features (`--enable-preview`)
+  - Die Anwendung benötigt `--enable-preview` für Java 21 Preview Features
+  - In Docker: Umgebungsvariable `JAVA_OPTS="-Xms256m -Xmx512m --enable-preview"`
+- **Gradle 8.14.3** (wird über Wrapper bereitgestellt)
 - **Docker** (optional, für Container-Deployment)
 
 ## 🛠️ Installation
@@ -29,23 +31,13 @@ cd zugferd-invoice-tool
 
 ### 2. Gradle Wrapper initialisieren
 
-Falls der Gradle Wrapper noch nicht vorhanden ist:
+Der Gradle Wrapper ist bereits vorhanden. Falls notwendig:
 
 ```bash
-gradle wrapper --gradle-version 8.12
+gradle wrapper --gradle-version 8.14.3
 ```
 
-### 3. sRGB ICC-Profil hinzufügen
-
-Für vollständige PDF/A-3 Konformität wird ein sRGB ICC-Profil benötigt:
-
-```bash
-# Download sRGB Profil von ICC
-curl -o src/main/resources/sRGB.icc \
-  https://www.color.org/sRGB_v4_ICC_preference.icc
-```
-
-### 4. Anwendung starten
+### 3. Anwendung starten
 
 ```bash
 ./gradlew bootRun
@@ -103,7 +95,7 @@ Laden Sie die fertige E-Rechnung herunter.
 ┌─────────────────────────────────────────────────────────┐
 │                    Docker Container                      │
 │  ┌───────────────────────────────────────────────────┐  │
-│  │              Spring Boot Application               │  │
+│  │              Spring Boot 4.0.1 Application          │  │
 │  │  ┌─────────────┐  ┌─────────────┐  ┌───────────┐  │  │
 │  │  │  Controller │  │   Service   │  │  Storage  │  │  │
 │  │  │  (Web UI)   │──│  (Business) │──│  (Temp)   │  │  │
@@ -149,13 +141,13 @@ storage:
 
 | Komponente | Technologie |
 |------------|-------------|
-| Sprache | Java 25 |
-| Framework | Spring Boot 4.x |
-| Build | Gradle 8.x (Kotlin DSL) |
-| Frontend | Thymeleaf + Bootstrap 5 |
-| PDF | Apache PDFBox 3.x |
-| ZUGFeRD | Mustang Library |
-| Validierung | VeraPDF |
+| Sprache | Java 21 (mit Preview Features) |
+| Framework | Spring Boot 4.0.1 |
+| Build | Gradle 8.14.3 (Kotlin DSL) |
+| Frontend | Thymeleaf 3.x + Bootstrap 5.3.8 |
+| PDF | Apache PDFBox 3.0.6 |
+| ZUGFeRD | Mustang Project 2.21.0 |
+| Validierung | VeraPDF 1.28.2 |
 
 ## 🧪 Tests
 
@@ -171,26 +163,30 @@ storage:
 
 ```
 zugferd-invoice-tool/
-├── build.gradle.kts          # Build-Konfiguration
+├── build.gradle.kts          # Build-Konfiguration mit Kotlin DSL
 ├── settings.gradle.kts       # Projekt-Settings
+├── gradle.properties          # Gradle Build Properties
 ├── gradle/
+│   ├── wrapper/              # Gradle Wrapper
 │   └── libs.versions.toml    # Version Catalog
-├── Dockerfile
-├── docker-compose.yml
+├── Dockerfile                # Docker Build Konfiguration
+├── docker-compose.yml        # Docker Compose Konfiguration
 └── src/
     ├── main/
     │   ├── java/de/zugferd/invoicetool/
-    │   │   ├── config/       # Spring Konfiguration
-    │   │   ├── controller/   # Web Controller
-    │   │   ├── service/      # Business Logic
-    │   │   ├── model/        # Datenmodelle (Records)
-    │   │   ├── exception/    # Exception Handling
-    │   │   └── util/         # Utilities
+    │   │   ├── ZugferdInvoiceToolApplication.java  # Main Application
+    │   │   ├── config/                              # Spring Konfiguration
+    │   │   ├── controller/                          # Web Controller
+    │   │   ├── service/                             # Business Logic
+    │   │   ├── model/                               # Datenmodelle (Records)
+    │   │   ├── exception/                           # Exception Handling
+    │   │   └── util/                                # Utilities
     │   └── resources/
-    │       ├── templates/    # Thymeleaf Templates
-    │       ├── static/       # CSS, JS
-    │       └── messages*.properties  # i18n
-    └── test/                 # Unit Tests
+    │       ├── templates/                           # Thymeleaf Templates
+    │       ├── static/                              # CSS, JS
+    │       ├── messages*.properties                 # i18n
+    │       └── sRGB.icc                             # sRGB ICC Profil
+    └── test/                                       # Unit Tests
 ```
 
 ## 🌐 Internationalisierung
@@ -226,3 +222,6 @@ Bei Fragen oder Problemen erstellen Sie bitte ein Issue im Repository.
 - [Mustang Project](https://github.com/ZUGFeRD/mustangproject) - ZUGFeRD Library
 - [VeraPDF](https://verapdf.org/) - PDF/A Validation
 - [Apache PDFBox](https://pdfbox.apache.org/) - PDF Processing
+- [Spring Boot](https://spring.io/projects/spring-boot) - Java Framework
+- [Gradle](https://gradle.org/) - Build Tool
+- [Thymeleaf](https://www.thymeleaf.org/) - Template Engine
