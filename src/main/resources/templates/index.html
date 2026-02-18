@@ -33,84 +33,90 @@
         </p>
     </section>
 
-    <div class="grid-2-1">
+    <div class="row g-4">
         <!-- Upload Section -->
-        <div>
-            <article>
-                <header>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
                     <strong th:text="#{index.upload.title}">PDF hochladen</strong>
-                </header>
-                <form th:action="@{/upload}" method="post" enctype="multipart/form-data" id="uploadForm">
-                    <!-- Drop Zone -->
-                    <div class="upload-zone" id="dropZone">
-                        <div class="upload-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                <polyline points="17 8 12 3 7 8"/>
-                                <line x1="12" y1="3" x2="12" y2="15"/>
-                            </svg>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/upload}" method="post" enctype="multipart/form-data" id="uploadForm">
+                        <!-- Drop Zone -->
+                        <div class="upload-zone" id="dropZone">
+                            <div class="upload-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="17 8 12 3 7 8"/>
+                                    <line x1="12" y1="3" x2="12" y2="15"/>
+                                </svg>
+                            </div>
+                            <p class="upload-text" th:text="#{index.upload.description}">
+                                PDF-Datei hier ablegen oder auswaehlen
+                            </p>
+                            <input type="file" name="file" id="fileInput" accept="application/pdf" class="d-none" required>
+                            <button type="button" class="btn btn-outline-primary" id="chooseFileBtn">
+                                <span th:text="#{index.upload.button}">Datei auswaehlen</span>
+                            </button>
+                            <p class="upload-hint" th:text="#{index.upload.hint}">
+                                Maximale Dateigrösse: 10 MB
+                            </p>
                         </div>
-                        <p class="upload-text" th:text="#{index.upload.description}">
-                            PDF-Datei hier ablegen oder auswaehlen
-                        </p>
-                        <input type="file" name="file" id="fileInput" accept="application/pdf" class="hidden" required>
-                        <button type="button" class="secondary" id="chooseFileBtn">
-                            <span th:text="#{index.upload.button}">Datei auswaehlen</span>
+
+                        <!-- Selected File Info -->
+                        <div id="fileInfo" class="file-info d-none">
+                            <span class="file-icon">&#128196;</span>
+                            <span class="file-name" id="fileName"></span>
+                            <span class="file-size" id="fileSize"></span>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary w-100" id="submitBtn" disabled>
+                            <span th:text="#{index.upload.continue}">Weiter</span>
+                            <span>&#8594;</span>
                         </button>
-                        <p class="upload-hint" th:text="#{index.upload.hint}">
-                            Maximale Dateigrösse: 10 MB
-                        </p>
-                    </div>
-
-                    <!-- Selected File Info -->
-                    <div id="fileInfo" class="file-info hidden">
-                        <span class="file-icon">&#128196;</span>
-                        <span class="file-name" id="fileName"></span>
-                        <span class="file-size" id="fileSize"></span>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button type="submit" id="submitBtn" disabled>
-                        <span th:text="#{index.upload.continue}">Weiter</span>
-                        <span>&#8594;</span>
-                    </button>
-                </form>
-            </article>
+                    </form>
+                </div>
+            </div>
         </div>
 
         <!-- Features Section -->
-        <div>
-            <article>
-                <header>
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-header">
                     <strong th:text="#{index.features.title}">Funktionen</strong>
-                </header>
-                <ul class="feature-list">
-                    <li>
-                        <span class="check">&#10003;</span>
-                        <span th:text="#{index.features.zugferd}">ZUGFeRD 2.1 konform</span>
-                    </li>
-                    <li>
-                        <span class="check">&#10003;</span>
-                        <span th:text="#{index.features.pdfa3}">PDF/A-3 Standard</span>
-                    </li>
-                    <li>
-                        <span class="check">&#10003;</span>
-                        <span th:text="#{index.features.validation}">VeraPDF Validierung</span>
-                    </li>
-                    <li>
-                        <span class="check">&#10003;</span>
-                        <span th:text="#{index.features.en16931}">EN16931 Profil</span>
-                    </li>
-                </ul>
-            </article>
+                </div>
+                <div class="card-body">
+                    <ul class="feature-list">
+                        <li>
+                            <span class="check">&#10003;</span>
+                            <span th:text="#{index.features.zugferd}">ZUGFeRD 2.1 konform</span>
+                        </li>
+                        <li>
+                            <span class="check">&#10003;</span>
+                            <span th:text="#{index.features.pdfa3}">PDF/A-3 Standard</span>
+                        </li>
+                        <li>
+                            <span class="check">&#10003;</span>
+                            <span th:text="#{index.features.validation}">VeraPDF Validierung</span>
+                        </li>
+                        <li>
+                            <span class="check">&#10003;</span>
+                            <span th:text="#{index.features.en16931}">EN16931 Profil</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-            <article>
-                <h4 th:text="#{index.info.title}">Was ist ZUGFeRD?</h4>
-                <p th:text="#{index.info.description}">
-                    ZUGFeRD ist ein deutsches Format fuer elektronische Rechnungen,
-                    das eine PDF-Datei mit eingebetteten XML-Daten kombiniert.
-                </p>
-            </article>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="#{index.info.title}">Was ist ZUGFeRD?</h5>
+                    <p class="card-text" th:text="#{index.info.description}">
+                        ZUGFeRD ist ein deutsches Format fuer elektronische Rechnungen,
+                        das eine PDF-Datei mit eingebetteten XML-Daten kombiniert.
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 </main>
@@ -182,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         fileName.textContent = file.name;
         fileSize.textContent = '(' + formatFileSize(file.size) + ')';
-        fileInfo.classList.remove('hidden');
+        fileInfo.classList.remove('d-none');
         submitBtn.disabled = false;
     }
 

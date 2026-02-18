@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      th:lang="${#locale.language}"
-      data-theme="light">
+      th:lang="${#locale.language}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,73 +9,71 @@
     <meta name="theme-color" content="#9b4dca">
     <title th:block th:fragment="title">E-Rechnung Tool</title>
 
-    <!-- Pico CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-    <!-- Noto Sans Font -->
-    <link rel="stylesheet" th:href="@{/fonts/noto-sans.css}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <!-- Custom CSS -->
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <!-- Noto Sans Font -->
+    <link rel="stylesheet" th:href="@{/fonts/noto-sans.css}">
 </head>
 <body>
     <!-- Skip Link for Accessibility -->
     <a href="#main-content" class="skip-link" th:text="#{accessibility.skipToContent}">Skip to main content</a>
 
     <!-- Header -->
-    <header class="container">
-        <nav>
-            <ul>
-                <li>
-                    <a th:href="@{/}" class="brand">
-                        <span class="brand-icon" aria-hidden="true">&#128196;</span>
-                        <strong th:text="#{app.title}">E-Rechnung Tool</strong>
-                    </a>
-                </li>
-            </ul>
-            <ul>
-                <li>
-                    <div class="locale-switcher" role="group" aria-label="Language selection">
-                        <a th:href="@{/locale(lang='de')}" role="button"
-                           th:classappend="${#locale.language == 'de'} ? '' : 'outline'"
-                           th:aria-current="${#locale.language == 'de'} ? 'true' : 'false'">DE</a>
-                        <a th:href="@{/locale(lang='en')}" role="button"
-                           th:classappend="${#locale.language == 'en'} ? '' : 'outline'"
-                           th:aria-current="${#locale.language == 'en'} ? 'true' : 'false'">EN</a>
-                    </div>
-                </li>
-            </ul>
+    <header class="app-header">
+        <nav class="navbar">
+            <div class="container">
+                <a th:href="@{/}" class="navbar-brand brand">
+                    <span class="brand-icon" aria-hidden="true">&#128196;</span>
+                    <strong th:text="#{app.title}">E-Rechnung Tool</strong>
+                </a>
+                <div class="btn-group" role="group" aria-label="Language selection">
+                    <a th:href="@{/locale(lang='de')}"
+                       th:class="${#locale.language == 'de'} ? 'btn btn-primary btn-sm' : 'btn btn-outline-primary btn-sm'"
+                       th:aria-current="${#locale.language == 'de'} ? 'true' : 'false'">DE</a>
+                    <a th:href="@{/locale(lang='en')}"
+                       th:class="${#locale.language == 'en'} ? 'btn btn-primary btn-sm' : 'btn btn-outline-primary btn-sm'"
+                       th:aria-current="${#locale.language == 'en'} ? 'true' : 'false'">EN</a>
+                </div>
+            </div>
         </nav>
     </header>
 
     <!-- Flash Messages -->
     <th:block th:if="${message != null or error != null}">
-        <div class="container">
-            <article th:if="${message}" class="alert-success">
+        <div class="container mt-3">
+            <div th:if="${message}" class="alert alert-success">
                 <span th:text="#{${message}}">Message</span>
-            </article>
-            <article th:if="${error}" class="alert-error">
+            </div>
+            <div th:if="${error}" class="alert alert-danger">
                 <span th:text="${#messages.msgOrNull(error)} ?: ${error}">Error</span>
-            </article>
+            </div>
         </div>
     </th:block>
 
     <!-- Main Content -->
-    <main id="main-content" class="container">
+    <main id="main-content" class="container py-4">
         <div layout:fragment="content">
             <!-- Page content will be inserted here -->
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="container">
-        <p>
-            <span th:text="#{app.title}">E-Rechnung Tool</span>
-            <span class="separator">&middot;</span>
-            ZUGFeRD 2.3 / Factur-X
-            <span class="separator">&middot;</span>
-            <span th:text="#{footer.powered}">Powered by Mustang</span>
-        </p>
+    <footer class="app-footer">
+        <div class="container">
+            <p class="mb-0 text-muted">
+                <span th:text="#{app.title}">E-Rechnung Tool</span>
+                <span class="separator">&middot;</span>
+                ZUGFeRD 2.3 / Factur-X
+                <span class="separator">&middot;</span>
+                <span th:text="#{footer.powered}">Powered by Mustang</span>
+            </p>
+        </div>
     </footer>
 
+    <!-- Bootstrap JS -->
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <!-- Locale Switcher JS -->
     <script th:src="@{/js/locale-switcher.js}"></script>
 

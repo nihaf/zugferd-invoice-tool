@@ -26,17 +26,17 @@
     </nav>
 
     <!-- Page Header -->
-    <div class="page-header">
+    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4 pb-3 border-bottom">
         <div>
             <h1 th:text="#{metadata.title}">Rechnungsdaten eingeben</h1>
-            <p class="file-badge">
+            <p class="file-badge mb-0">
                 <span class="file-icon">&#128196;</span>
                 <strong th:text="${originalFilename}">document.pdf</strong>
                 <span class="file-size">(<span th:text="${fileSize}">1.2 MB</span>)</span>
             </p>
         </div>
-        <div class="page-header-actions">
-            <a th:href="@{/}" role="button" class="secondary">
+        <div>
+            <a th:href="@{/}" class="btn btn-outline-primary">
                 <span th:text="#{metadata.button.cancel}">Abbrechen</span>
             </a>
         </div>
@@ -47,181 +47,176 @@
           th:object="${invoiceForm}" method="post" id="invoiceForm">
 
         <!-- Validation Errors -->
-        <article th:if="${#fields.hasErrors('*')}" class="alert-error">
-            <ul>
+        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+            <ul class="mb-0">
                 <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Error</li>
             </ul>
-        </article>
+        </div>
 
         <!-- Invoice Data Section -->
-        <section class="form-section">
-            <header class="form-section-header">
-                <h2 class="form-section-title">
-                    <span class="section-icon">&#128196;</span>
-                    <span th:text="#{metadata.section.invoice}">Rechnungsdaten</span>
-                </h2>
-            </header>
-            <div class="form-section-body">
-                <div class="grid">
-                    <label>
-                        <span th:text="#{metadata.invoice.number}">Rechnungsnummer</span>
-                        <input type="text" id="invoiceNumber" th:field="*{invoiceNumber}"
-                               th:classappend="${#fields.hasErrors('invoiceNumber')} ? 'input-error'" required>
-                    </label>
-                    <label>
-                        <span th:text="#{metadata.invoice.issueDate}">Rechnungsdatum</span>
-                        <input type="date" id="issueDate" th:field="*{issueDate}" required>
-                    </label>
-                    <label>
-                        <span th:text="#{metadata.invoice.dueDate}">Faelligkeitsdatum</span>
-                        <input type="date" id="dueDate" th:field="*{dueDate}">
-                    </label>
+        <div class="card mb-4">
+            <div class="card-header d-flex align-items-center gap-2">
+                <span>&#128196;</span>
+                <h5 class="mb-0" th:text="#{metadata.section.invoice}">Rechnungsdaten</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label" for="invoiceNumber" th:text="#{metadata.invoice.number}">Rechnungsnummer</label>
+                        <input type="text" id="invoiceNumber" class="form-control"
+                               th:field="*{invoiceNumber}"
+                               th:classappend="${#fields.hasErrors('invoiceNumber')} ? ' is-invalid'" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="issueDate" th:text="#{metadata.invoice.issueDate}">Rechnungsdatum</label>
+                        <input type="date" id="issueDate" class="form-control" th:field="*{issueDate}" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="dueDate" th:text="#{metadata.invoice.dueDate}">Faelligkeitsdatum</label>
+                        <input type="date" id="dueDate" class="form-control" th:field="*{dueDate}">
+                    </div>
                 </div>
-                <div class="grid">
-                    <label>
-                        <span th:text="#{metadata.invoice.currency}">Waehrung</span>
-                        <select id="currency" th:field="*{currency}">
+                <div class="row g-3 mt-1">
+                    <div class="col-md-4">
+                        <label class="form-label" for="currency" th:text="#{metadata.invoice.currency}">Waehrung</label>
+                        <select id="currency" class="form-select" th:field="*{currency}">
                             <option value="EUR">EUR - Euro</option>
                             <option value="USD">USD - US Dollar</option>
                             <option value="GBP">GBP - British Pound</option>
                             <option value="CHF">CHF - Swiss Franc</option>
                         </select>
-                    </label>
-                    <label>
-                        <span th:text="#{metadata.invoice.buyerReference}">Kaeuferreferenz</span>
-                        <input type="text" id="buyerReference" th:field="*{buyerReference}">
-                    </label>
-                    <label>
-                        <span th:text="#{metadata.invoice.orderReference}">Bestellreferenz</span>
-                        <input type="text" id="orderReference" th:field="*{orderReference}">
-                    </label>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="buyerReference" th:text="#{metadata.invoice.buyerReference}">Kaeuferreferenz</label>
+                        <input type="text" id="buyerReference" class="form-control" th:field="*{buyerReference}">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="orderReference" th:text="#{metadata.invoice.orderReference}">Bestellreferenz</label>
+                        <input type="text" id="orderReference" class="form-control" th:field="*{orderReference}">
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
 
         <!-- Seller Section -->
-        <section class="form-section">
-            <header class="form-section-header">
-                <h2 class="form-section-title">
-                    <span class="section-icon">&#127970;</span>
-                    <span th:text="#{metadata.section.seller}">Verkaeufer</span>
-                </h2>
-            </header>
-            <div class="form-section-body">
-                <div class="grid">
-                    <label>
-                        <span th:text="#{metadata.party.name}">Name / Firma</span>
-                        <input type="text" id="sellerName" th:field="*{sellerName}" required>
-                    </label>
-                    <label>
-                        <span th:text="#{metadata.party.vatId}">USt-IdNr.</span>
-                        <input type="text" id="sellerVatId" th:field="*{sellerVatId}" placeholder="DE123456789">
-                    </label>
+        <div class="card mb-4">
+            <div class="card-header d-flex align-items-center gap-2">
+                <span>&#127970;</span>
+                <h5 class="mb-0" th:text="#{metadata.section.seller}">Verkaeufer</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label" for="sellerName" th:text="#{metadata.party.name}">Name / Firma</label>
+                        <input type="text" id="sellerName" class="form-control" th:field="*{sellerName}" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="sellerVatId" th:text="#{metadata.party.vatId}">USt-IdNr.</label>
+                        <input type="text" id="sellerVatId" class="form-control" th:field="*{sellerVatId}" placeholder="DE123456789">
+                    </div>
                 </div>
-                <div class="grid">
-                    <label>
-                        <span th:text="#{metadata.party.street}">Strasse</span>
-                        <input type="text" id="sellerStreet" th:field="*{sellerStreet}" required>
-                    </label>
-                    <label>
-                        <span th:text="#{metadata.party.postalCode}">PLZ</span>
-                        <input type="text" id="sellerPostalCode" th:field="*{sellerPostalCode}" required>
-                    </label>
-                    <label>
-                        <span th:text="#{metadata.party.city}">Ort</span>
-                        <input type="text" id="sellerCity" th:field="*{sellerCity}" required>
-                    </label>
+                <div class="row g-3 mt-1">
+                    <div class="col-md-4">
+                        <label class="form-label" for="sellerStreet" th:text="#{metadata.party.street}">Strasse</label>
+                        <input type="text" id="sellerStreet" class="form-control" th:field="*{sellerStreet}" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="sellerPostalCode" th:text="#{metadata.party.postalCode}">PLZ</label>
+                        <input type="text" id="sellerPostalCode" class="form-control" th:field="*{sellerPostalCode}" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="sellerCity" th:text="#{metadata.party.city}">Ort</label>
+                        <input type="text" id="sellerCity" class="form-control" th:field="*{sellerCity}" required>
+                    </div>
                 </div>
-                <div class="grid">
-                    <label>
-                        <span th:text="#{metadata.party.country}">Land</span>
-                        <select id="sellerCountryCode" th:field="*{sellerCountryCode}">
+                <div class="row g-3 mt-1">
+                    <div class="col-md-4">
+                        <label class="form-label" for="sellerCountryCode" th:text="#{metadata.party.country}">Land</label>
+                        <select id="sellerCountryCode" class="form-select" th:field="*{sellerCountryCode}">
                             <option th:each="entry : ${countries}"
                                     th:value="${entry.key}"
                                     th:text="${entry.value}">Land</option>
                         </select>
-                    </label>
-                    <label>
-                        <span th:text="#{metadata.party.email}">E-Mail</span>
-                        <input type="email" id="sellerEmail" th:field="*{sellerEmail}">
-                    </label>
-                    <label>
-                        <span th:text="#{metadata.party.phone}">Telefon</span>
-                        <input type="tel" id="sellerPhone" th:field="*{sellerPhone}">
-                    </label>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="sellerEmail" th:text="#{metadata.party.email}">E-Mail</label>
+                        <input type="email" id="sellerEmail" class="form-control" th:field="*{sellerEmail}">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="sellerPhone" th:text="#{metadata.party.phone}">Telefon</label>
+                        <input type="tel" id="sellerPhone" class="form-control" th:field="*{sellerPhone}">
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
 
         <!-- Buyer Section -->
-        <section class="form-section">
-            <header class="form-section-header">
-                <h2 class="form-section-title">
-                    <span class="section-icon">&#128100;</span>
-                    <span th:text="#{metadata.section.buyer}">Kaeufer</span>
-                </h2>
-            </header>
-            <div class="form-section-body">
-                <div class="grid">
-                    <label>
-                        <span th:text="#{metadata.party.name}">Name / Firma</span>
-                        <input type="text" id="buyerName" th:field="*{buyerName}" required>
-                    </label>
-                    <label>
-                        <span th:text="#{metadata.party.vatId}">USt-IdNr.</span>
-                        <input type="text" id="buyerVatId" th:field="*{buyerVatId}">
-                    </label>
+        <div class="card mb-4">
+            <div class="card-header d-flex align-items-center gap-2">
+                <span>&#128100;</span>
+                <h5 class="mb-0" th:text="#{metadata.section.buyer}">Kaeufer</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label" for="buyerName" th:text="#{metadata.party.name}">Name / Firma</label>
+                        <input type="text" id="buyerName" class="form-control" th:field="*{buyerName}" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="buyerVatId" th:text="#{metadata.party.vatId}">USt-IdNr.</label>
+                        <input type="text" id="buyerVatId" class="form-control" th:field="*{buyerVatId}">
+                    </div>
                 </div>
-                <div class="grid">
-                    <label>
-                        <span th:text="#{metadata.party.street}">Strasse</span>
-                        <input type="text" id="buyerStreet" th:field="*{buyerStreet}" required>
-                    </label>
-                    <label>
-                        <span th:text="#{metadata.party.postalCode}">PLZ</span>
-                        <input type="text" id="buyerPostalCode" th:field="*{buyerPostalCode}" required>
-                    </label>
-                    <label>
-                        <span th:text="#{metadata.party.city}">Ort</span>
-                        <input type="text" id="buyerCity" th:field="*{buyerCity}" required>
-                    </label>
+                <div class="row g-3 mt-1">
+                    <div class="col-md-4">
+                        <label class="form-label" for="buyerStreet" th:text="#{metadata.party.street}">Strasse</label>
+                        <input type="text" id="buyerStreet" class="form-control" th:field="*{buyerStreet}" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="buyerPostalCode" th:text="#{metadata.party.postalCode}">PLZ</label>
+                        <input type="text" id="buyerPostalCode" class="form-control" th:field="*{buyerPostalCode}" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="buyerCity" th:text="#{metadata.party.city}">Ort</label>
+                        <input type="text" id="buyerCity" class="form-control" th:field="*{buyerCity}" required>
+                    </div>
                 </div>
-                <div class="grid">
-                    <label>
-                        <span th:text="#{metadata.party.country}">Land</span>
-                        <select id="buyerCountryCode" th:field="*{buyerCountryCode}">
+                <div class="row g-3 mt-1">
+                    <div class="col-md-4">
+                        <label class="form-label" for="buyerCountryCode" th:text="#{metadata.party.country}">Land</label>
+                        <select id="buyerCountryCode" class="form-select" th:field="*{buyerCountryCode}">
                             <option th:each="entry : ${countries}"
                                     th:value="${entry.key}"
                                     th:text="${entry.value}">Land</option>
                         </select>
-                    </label>
-                    <label>
-                        <span th:text="#{metadata.party.email}">E-Mail</span>
-                        <input type="email" id="buyerEmail" th:field="*{buyerEmail}">
-                    </label>
-                    <label>
-                        <span th:text="#{metadata.party.phone}">Telefon</span>
-                        <input type="tel" id="buyerPhone" th:field="*{buyerPhone}">
-                    </label>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="buyerEmail" th:text="#{metadata.party.email}">E-Mail</label>
+                        <input type="email" id="buyerEmail" class="form-control" th:field="*{buyerEmail}">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="buyerPhone" th:text="#{metadata.party.phone}">Telefon</label>
+                        <input type="tel" id="buyerPhone" class="form-control" th:field="*{buyerPhone}">
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
 
         <!-- Line Items Section -->
-        <section class="form-section">
-            <header class="form-section-header">
-                <h2 class="form-section-title">
-                    <span class="section-icon">&#128230;</span>
-                    <span th:text="#{metadata.section.items}">Positionen</span>
-                </h2>
-                <button type="button" class="secondary btn-sm" onclick="addItem()">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-2">
+                    <span>&#128230;</span>
+                    <h5 class="mb-0" th:text="#{metadata.section.items}">Positionen</h5>
+                </div>
+                <button type="button" class="btn btn-outline-primary btn-sm" onclick="addItemJS()">
                     + <span th:text="#{metadata.item.add}">Position hinzufuegen</span>
                 </button>
-            </header>
-            <div class="form-section-body">
-                <div class="table-wrapper">
-                    <table id="itemsTable">
-                        <thead>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="itemsTable">
+                        <thead class="table-light">
                             <tr>
                                 <th th:text="#{metadata.item.description}">Beschreibung</th>
                                 <th class="col-qty" th:text="#{metadata.item.quantity}">Menge</th>
@@ -235,27 +230,31 @@
                         <tbody id="itemsBody">
                             <tr th:each="item, stat : *{items}" th:id="'item-row-' + ${stat.index}">
                                 <td>
-                                    <input type="text" th:field="*{items[__${stat.index}__].description}" required>
+                                    <input type="text" class="form-control form-control-sm"
+                                           th:field="*{items[__${stat.index}__].description}" required>
                                 </td>
                                 <td>
-                                    <input type="number" step="0.001" min="0.001" class="item-quantity"
+                                    <input type="number" step="0.001" min="0.001"
+                                           class="form-control form-control-sm item-quantity"
                                            th:field="*{items[__${stat.index}__].quantity}"
                                            th:data-index="${stat.index}" required>
                                 </td>
                                 <td>
-                                    <select th:field="*{items[__${stat.index}__].unit}">
+                                    <select class="form-select form-select-sm"
+                                            th:field="*{items[__${stat.index}__].unit}">
                                         <option th:each="entry : ${units}"
                                                 th:value="${entry.key}"
                                                 th:text="${entry.value}">Einheit</option>
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="number" step="0.01" min="0" class="item-price"
+                                    <input type="number" step="0.01" min="0"
+                                           class="form-control form-control-sm item-price"
                                            th:field="*{items[__${stat.index}__].unitPrice}"
                                            th:data-index="${stat.index}" required>
                                 </td>
                                 <td>
-                                    <select class="item-vat"
+                                    <select class="form-select form-select-sm item-vat"
                                             th:field="*{items[__${stat.index}__].vatRate}"
                                             th:data-index="${stat.index}">
                                         <option th:each="rate : ${vatRates}"
@@ -264,29 +263,30 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="text" th:id="'item-net-' + ${stat.index}" readonly class="input-readonly"
+                                    <input type="text" class="form-control form-control-sm bg-light"
+                                           th:id="'item-net-' + ${stat.index}" readonly
                                            th:value="${item.quantity != null && item.unitPrice != null ? item.quantity * item.unitPrice : 0}">
                                 </td>
-                                <td>
-                                    <button type="button" class="btn-remove"
-                                            th:onclick="'removeItem(' + ${stat.index} + ')'"
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-sm btn-outline-danger"
+                                            onclick="removeItemJS(this)"
                                             th:disabled="${stat.size == 1}">&times;</button>
                                 </td>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="5" class="text-right"><strong th:text="#{metadata.totals.net}">Summe Netto:</strong></td>
+                                <td colspan="5" class="text-end"><strong th:text="#{metadata.totals.net}">Summe Netto:</strong></td>
                                 <td><span id="totalNet">0.00</span> <span th:text="*{currency}">EUR</span></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td colspan="5" class="text-right"><strong th:text="#{metadata.totals.vat}">MwSt:</strong></td>
+                                <td colspan="5" class="text-end"><strong th:text="#{metadata.totals.vat}">MwSt:</strong></td>
                                 <td><span id="totalVat">0.00</span> <span th:text="*{currency}">EUR</span></td>
                                 <td></td>
                             </tr>
                             <tr class="total-row">
-                                <td colspan="5" class="text-right"><strong th:text="#{metadata.totals.gross}">Gesamt Brutto:</strong></td>
+                                <td colspan="5" class="text-end"><strong th:text="#{metadata.totals.gross}">Gesamt Brutto:</strong></td>
                                 <td><strong><span id="totalGross">0.00</span> <span th:text="*{currency}">EUR</span></strong></td>
                                 <td></td>
                             </tr>
@@ -294,62 +294,58 @@
                     </table>
                 </div>
             </div>
-        </section>
+        </div>
 
         <!-- Payment Section -->
-        <section class="form-section">
-            <header class="form-section-header">
-                <h2 class="form-section-title">
-                    <span class="section-icon">&#128179;</span>
-                    <span th:text="#{metadata.section.payment}">Zahlungsinformationen</span>
-                </h2>
-            </header>
-            <div class="form-section-body">
-                <div class="grid">
-                    <label>
-                        <span th:text="#{metadata.bank.iban}">IBAN</span>
-                        <input type="text" id="bankIban" th:field="*{bankIban}" placeholder="DE89 3704 0044 0532 0130 00">
-                    </label>
-                    <label>
-                        <span th:text="#{metadata.bank.bic}">BIC</span>
-                        <input type="text" id="bankBic" th:field="*{bankBic}" placeholder="COBADEFFXXX">
-                    </label>
-                    <label>
-                        <span th:text="#{metadata.bank.name}">Bankname</span>
-                        <input type="text" id="bankName" th:field="*{bankName}">
-                    </label>
-                </div>
-                <label>
-                    <span th:text="#{metadata.payment.terms}">Zahlungsbedingungen</span>
-                    <input type="text" id="paymentTerms" th:field="*{paymentTerms}"
-                           th:placeholder="#{metadata.payment.terms.placeholder}">
-                </label>
+        <div class="card mb-4">
+            <div class="card-header d-flex align-items-center gap-2">
+                <span>&#128179;</span>
+                <h5 class="mb-0" th:text="#{metadata.section.payment}">Zahlungsinformationen</h5>
             </div>
-        </section>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label" for="bankIban" th:text="#{metadata.bank.iban}">IBAN</label>
+                        <input type="text" id="bankIban" class="form-control" th:field="*{bankIban}" placeholder="DE89 3704 0044 0532 0130 00">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="bankBic" th:text="#{metadata.bank.bic}">BIC</label>
+                        <input type="text" id="bankBic" class="form-control" th:field="*{bankBic}" placeholder="COBADEFFXXX">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="bankName" th:text="#{metadata.bank.name}">Bankname</label>
+                        <input type="text" id="bankName" class="form-control" th:field="*{bankName}">
+                    </div>
+                </div>
+                <div class="row g-3 mt-1">
+                    <div class="col-12">
+                        <label class="form-label" for="paymentTerms" th:text="#{metadata.payment.terms}">Zahlungsbedingungen</label>
+                        <input type="text" id="paymentTerms" class="form-control" th:field="*{paymentTerms}"
+                               th:placeholder="#{metadata.payment.terms.placeholder}">
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Notes Section -->
-        <section class="form-section">
-            <header class="form-section-header">
-                <h2 class="form-section-title">
-                    <span class="section-icon">&#128221;</span>
-                    <span th:text="#{metadata.section.notes}">Anmerkungen</span>
-                </h2>
-            </header>
-            <div class="form-section-body">
-                <label>
-                    <textarea id="notes" th:field="*{notes}" rows="3"
-                              th:placeholder="#{metadata.notes.placeholder}"></textarea>
-                </label>
+        <div class="card mb-4">
+            <div class="card-header d-flex align-items-center gap-2">
+                <span>&#128221;</span>
+                <h5 class="mb-0" th:text="#{metadata.section.notes}">Anmerkungen</h5>
             </div>
-        </section>
+            <div class="card-body">
+                <textarea id="notes" class="form-control" th:field="*{notes}" rows="3"
+                          th:placeholder="#{metadata.notes.placeholder}"></textarea>
+            </div>
+        </div>
 
         <!-- Submit Buttons -->
-        <div class="form-actions">
-            <a th:href="@{/}" role="button" class="secondary">
+        <div class="d-flex justify-content-between align-items-center pt-3 mb-4">
+            <a th:href="@{/}" class="btn btn-outline-primary">
                 <span>&larr;</span>
                 <span th:text="#{metadata.button.cancel}">Abbrechen</span>
             </a>
-            <button type="submit" id="generateBtn">
+            <button type="submit" class="btn btn-primary" id="generateBtn">
                 <span th:text="#{metadata.button.generate}">E-Rechnung erstellen</span>
                 <span>&rarr;</span>
             </button>
@@ -359,8 +355,6 @@
 
 <th:block layout:fragment="scripts">
 <script th:inline="javascript">
-    const sessionId = [[${sessionId}]];
-
     document.addEventListener('DOMContentLoaded', function() {
         calculateTotals();
 
@@ -377,16 +371,97 @@
         });
     });
 
-    function addItem() {
-        const form = document.getElementById('invoiceForm');
-        form.action = `/metadata/${sessionId}/add-item`;
-        form.submit();
+    function addItemJS() {
+        const tbody = document.getElementById('itemsBody');
+        const rows = tbody.querySelectorAll('tr');
+        const newIndex = rows.length;
+
+        // Erste Zeile als Vorlage klonen
+        const newRow = rows[0].cloneNode(true);
+        newRow.id = 'item-row-' + newIndex;
+
+        // Alle name-/id-Attribute auf neuen Index umschreiben
+        newRow.querySelectorAll('[name]').forEach(el => {
+            el.name = el.name.replace(/items\[\d+\]/, 'items[' + newIndex + ']');
+        });
+        newRow.querySelectorAll('[id]').forEach(el => {
+            el.id = el.id.replace(/items\[\d+\]/, 'items[' + newIndex + ']');
+        });
+
+        // Net-Anzeige-ID aktualisieren
+        const netInput = newRow.querySelector('[id^="item-net-"]');
+        if (netInput) {
+            netInput.id = 'item-net-' + newIndex;
+            netInput.value = '0.00';
+        }
+
+        // Felder auf Standardwerte zurücksetzen
+        const descInput = newRow.querySelector('input.form-control:not(.bg-light):not([type="number"])');
+        if (descInput) descInput.value = '';
+        const qtyInput = newRow.querySelector('.item-quantity');
+        if (qtyInput) qtyInput.value = '1';
+        const priceInput = newRow.querySelector('.item-price');
+        if (priceInput) priceInput.value = '0';
+
+        // data-index aktualisieren
+        newRow.querySelectorAll('[data-index]').forEach(el => {
+            el.dataset.index = newIndex;
+        });
+
+        // Entfernen-Button aktivieren und onclick setzen
+        const removeBtn = newRow.querySelector('.btn-outline-danger');
+        if (removeBtn) {
+            removeBtn.disabled = false;
+            removeBtn.setAttribute('onclick', 'removeItemJS(this)');
+        }
+
+        tbody.appendChild(newRow);
+
+        // Event-Listener für neue Inputs anhängen
+        newRow.querySelectorAll('.item-quantity, .item-price, .item-vat').forEach(el => {
+            el.addEventListener('change', calculateTotals);
+            el.addEventListener('input', calculateTotals);
+        });
+
+        updateRemoveButtons();
+        calculateTotals();
     }
 
-    function removeItem(index) {
-        const form = document.getElementById('invoiceForm');
-        form.action = `/metadata/${sessionId}/remove-item/${index}`;
-        form.submit();
+    function removeItemJS(button) {
+        const tbody = document.getElementById('itemsBody');
+        if (tbody.querySelectorAll('tr').length <= 1) return;
+        button.closest('tr').remove();
+        reindexRows();
+        updateRemoveButtons();
+        calculateTotals();
+    }
+
+    function reindexRows() {
+        document.querySelectorAll('#itemsBody tr').forEach((row, index) => {
+            row.id = 'item-row-' + index;
+
+            row.querySelectorAll('[name]').forEach(el => {
+                el.name = el.name.replace(/items\[\d+\]/, 'items[' + index + ']');
+            });
+            row.querySelectorAll('[id]').forEach(el => {
+                if (el.id.startsWith('item-net-')) {
+                    el.id = 'item-net-' + index;
+                } else {
+                    el.id = el.id.replace(/items\[\d+\]/, 'items[' + index + ']');
+                }
+            });
+            row.querySelectorAll('[data-index]').forEach(el => {
+                el.dataset.index = index;
+            });
+        });
+    }
+
+    function updateRemoveButtons() {
+        const rows = document.querySelectorAll('#itemsBody tr');
+        rows.forEach(row => {
+            const btn = row.querySelector('.btn-outline-danger');
+            if (btn) btn.disabled = rows.length === 1;
+        });
     }
 
     function calculateTotals() {
