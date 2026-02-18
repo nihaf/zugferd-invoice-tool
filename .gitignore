@@ -3,6 +3,9 @@ target/
 .settings/
 .vscode/
 .history/
+.classpath
+.project
+
 
 # Gradle
 build/
