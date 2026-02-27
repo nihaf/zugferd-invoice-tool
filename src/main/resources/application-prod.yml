@@ -101,7 +101,7 @@ logging:
 spring:
   config:
     activate:
-      on-profile: docker
+      on-profile: prod
 
 storage:
   upload-dir: /app/temp/uploads
@@ -112,19 +112,19 @@ invoice:
     # Seller Information (Company)
     seller:
       name: "CodeMatrosen GmbH"
-      vat-id: "DE288088"
-      street: "Frederic-Chopin-Weg 5"
+      vat-id: "DE311088288"
+      street: "Frédéric-Chopin-Weg 5"
       postal-code: "21423"
       city: "Winsen (Luhe)"
       country-code: "DE"
       email: "nils.haffke@codematrosen.de"
-      phone: "+49 171 1967245"
+      phone: "+49 1711967245"
 
     # Payment Information
     payment:
       iban: "DE34430609671300411500"
       bic: "GENODEM1GLS"
-      terms: "30 Werktage"
+      terms: "Zahlbar innerhalb von 30 Tagen ab Erhalt der Rechnung."
 
     # Invoice Defaults
     invoice:

@@ -11,7 +11,7 @@ import org.mustangproject.ZUGFeRD.IZUGFeRDExportableItem;
 import org.mustangproject.ZUGFeRD.IZUGFeRDExportableTradeParty;
 import org.mustangproject.ZUGFeRD.IZUGFeRDExportableContact;
 import org.mustangproject.ZUGFeRD.IZUGFeRDAllowanceCharge;
-import org.mustangproject.ZUGFeRD.IZUGFeRDTradeSettlementPayment;
+import org.mustangproject.ZUGFeRD.IZUGFeRDTradeSettlement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -156,26 +156,16 @@ public class ZugferdGeneratorService {
             }
 
             @Override
-            public IZUGFeRDTradeSettlementPayment[] getTradeSettlementPayment() {
-                if (metadata.bankDetails() != null) {
-                    return new IZUGFeRDTradeSettlementPayment[] {
-                        new IZUGFeRDTradeSettlementPayment() {
-                            @Override
-                            public String getOwnIBAN() {
-                                return metadata.bankDetails().iban();
-                            }
-
-                            @Override
-                            public String getOwnBIC() {
-                                return metadata.bankDetails().bic();
-                            }
-
-                            @Override
-                            public String getAccountName() {
-                                return metadata.bankDetails().accountHolder();
-                            }
-                        }
-                    };
+            public IZUGFeRDTradeSettlement[] getTradeSettlement() {
+                if (metadata.bankDetails() != null && metadata.bankDetails().iban() != null) {
+                    org.mustangproject.BankDetails bd = new org.mustangproject.BankDetails(
+                        metadata.bankDetails().iban(),
+                        metadata.bankDetails().bic()
+                    );
+                    if (metadata.bankDetails().accountHolder() != null) {
+                        bd.setAccountName(metadata.bankDetails().accountHolder());
+                    }
+                    return new IZUGFeRDTradeSettlement[] { bd };
                 }
                 return null;
             }

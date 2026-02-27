@@ -3,7 +3,10 @@
     "allow": [
       "Bash(curl:*)",
       "Bash(ls:*)",
-      "Bash(./gradlew:*)"
+      "Bash(./gradlew:*)",
+      "WebFetch(domain:search.maven.org)",
+      "Bash(jar tf:*)",
+      "Bash(jar xf:*)"
     ]
   }
 }

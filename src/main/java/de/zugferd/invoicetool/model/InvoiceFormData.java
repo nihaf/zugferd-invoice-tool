@@ -62,7 +62,6 @@ public class InvoiceFormData {
     // Bankverbindung
     private String bankIban;
     private String bankBic;
-    private String bankName;
     private String bankAccountHolder;
     
     // Rechnungspositionen
@@ -121,7 +120,7 @@ public class InvoiceFormData {
         
         BankDetails bankDetails = null;
         if (bankIban != null && !bankIban.isBlank()) {
-            bankDetails = new BankDetails(bankIban, bankBic, bankName, bankAccountHolder);
+            bankDetails = new BankDetails(bankIban, bankBic, bankAccountHolder);
         }
         
         var invoiceItems = items.stream()
@@ -229,9 +228,6 @@ public class InvoiceFormData {
                 if (paymentDefaults.getBic() != null) {
                     bankBic = paymentDefaults.getBic();
                 }
-                if (paymentDefaults.getBankName() != null) {
-                    bankName = paymentDefaults.getBankName();
-                }
                 if (paymentDefaults.getTerms() != null) {
                     paymentTerms = paymentDefaults.getTerms();
                 }
@@ -329,9 +325,6 @@ public class InvoiceFormData {
     
     public String getBankBic() { return bankBic; }
     public void setBankBic(String bankBic) { this.bankBic = bankBic; }
-    
-    public String getBankName() { return bankName; }
-    public void setBankName(String bankName) { this.bankName = bankName; }
     
     public String getBankAccountHolder() { return bankAccountHolder; }
     public void setBankAccountHolder(String bankAccountHolder) { this.bankAccountHolder = bankAccountHolder; }

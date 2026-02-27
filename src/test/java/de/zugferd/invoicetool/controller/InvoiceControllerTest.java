@@ -1,5 +1,6 @@
 package de.zugferd.invoicetool.controller;
 
+import de.zugferd.invoicetool.config.AppConfig;
 import de.zugferd.invoicetool.model.ProcessingStatus;
 import de.zugferd.invoicetool.service.InvoiceService;
 import de.zugferd.invoicetool.service.StorageService;
@@ -30,9 +31,12 @@ class InvoiceControllerTest {
     
     @MockitoBean
     private StorageService storageService;
-    
+
     @MockitoBean
     private InvoiceService invoiceService;
+
+    @MockitoBean
+    private AppConfig.InvoiceDefaults invoiceDefaults;
     
     @Test
     @DisplayName("Should display index page")

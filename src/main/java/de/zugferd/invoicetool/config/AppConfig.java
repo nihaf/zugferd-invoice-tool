@@ -121,7 +121,6 @@ public class AppConfig {
         public static class PaymentDefaults {
             private String iban;
             private String bic;
-            private String bankName;
             private String terms;
 
             public String getIban() { return iban; }
@@ -129,9 +128,6 @@ public class AppConfig {
 
             public String getBic() { return bic; }
             public void setBic(String bic) { this.bic = bic; }
-
-            public String getBankName() { return bankName; }
-            public void setBankName(String bankName) { this.bankName = bankName; }
 
             public String getTerms() { return terms; }
             public void setTerms(String terms) { this.terms = terms; }

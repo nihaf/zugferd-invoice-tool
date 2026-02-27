@@ -14,10 +14,7 @@ public record BankDetails(
     
     @Pattern(regexp = "^[A-Z]{6}[A-Z0-9]{2,5}$", message = "{validation.bank.bic.invalid}")
     String bic,
-    
-    @Size(max = 100)
-    String bankName,
-    
+
     @Size(max = 100)
     String accountHolder
 ) {

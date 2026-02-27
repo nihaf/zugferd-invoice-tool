@@ -231,14 +231,32 @@ public class InvoiceController {
     }
     
     private java.util.Map<String, String> getAvailableUnits() {
-        return java.util.Map.of(
-            "C62", "Stück",
-            "HUR", "Stunde",
-            "DAY", "Tag",
-            "KGM", "Kilogramm",
-            "MTR", "Meter",
-            "LTR", "Liter"
-        );
+        java.util.Map<String, String> units = new java.util.LinkedHashMap<>();
+        // Stück / Anzahl
+        units.put("C62", "Stück (C62)");
+        units.put("H87", "Stück (H87)");
+        units.put("NAR", "Anzahl Artikel (NAR)");
+        units.put("E48", "Leistung (E48)");
+        // Zeit
+        units.put("HUR", "Stunde (HUR)");
+        units.put("DAY", "Tag (DAY)");
+        // Gewicht
+        units.put("GRM", "Gramm (GRM)");
+        units.put("KGM", "Kilogramm (KGM)");
+        units.put("TNE", "Tonne (TNE)");
+        // Länge
+        units.put("CMT", "Zentimeter (CMT)");
+        units.put("MTR", "Meter (MTR)");
+        units.put("KMT", "Kilometer (KMT)");
+        // Fläche
+        units.put("CMK", "Quadratzentimeter (CMK)");
+        units.put("MTK", "Quadratmeter (MTK)");
+        // Volumen
+        units.put("LTR", "Liter (LTR)");
+        units.put("MTQ", "Kubikmeter (MTQ)");
+        // Energie
+        units.put("KWH", "Kilowattstunde (KWH)");
+        return units;
     }
     
     private java.util.List<String> getCommonVatRates() {
