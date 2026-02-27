@@ -318,6 +318,12 @@
                     </div>
                 </div>
                 <div class="row g-3 mt-1">
+                    <div class="col-md-6">
+                        <label class="form-label" for="bankAccountHolder" th:text="#{metadata.bank.accountHolder}">Kontoinhaber</label>
+                        <input type="text" id="bankAccountHolder" class="form-control" th:field="*{bankAccountHolder}">
+                    </div>
+                </div>
+                <div class="row g-3 mt-1">
                     <div class="col-12">
                         <label class="form-label" for="paymentTerms" th:text="#{metadata.payment.terms}">Zahlungsbedingungen</label>
                         <input type="text" id="paymentTerms" class="form-control" th:field="*{paymentTerms}"

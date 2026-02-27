@@ -185,8 +185,8 @@ public class InvoiceFormData {
             dueDate = issueDate.plusDays(30);
         }
         if (invoiceNumber == null || invoiceNumber.isBlank()) {
-            // Format: "01" + zweistelliger Monat + "-" + Jahr (z.B. "0103-2026")
-            invoiceNumber = String.format("01%02d-%d", issueDate.getMonthValue(), issueDate.getYear());
+            // Format: Jahr + "-" + zweistelliger Monat + "01" (z.B. "2026-0201")
+            invoiceNumber = String.format("%d-%02d01", issueDate.getYear(), issueDate.getMonthValue());
         }
 
         // Vorgaben aus Konfiguration anwenden, falls vorhanden

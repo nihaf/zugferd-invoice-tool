@@ -172,7 +172,7 @@ public class ZugferdGeneratorService {
 
                             @Override
                             public String getAccountName() {
-                                return metadata.bankDetails().bankName();
+                                return metadata.bankDetails().accountHolder();
                             }
                         }
                     };
